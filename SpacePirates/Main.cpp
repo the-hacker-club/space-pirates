@@ -1,7 +1,7 @@
 #include "Main.h"
 #include "WarpEngine.h"
 
-using WarpEngine::GameWindow;
+using namespace WarpEngine;
 
 int main() {
 
