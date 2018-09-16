@@ -8,13 +8,21 @@
 
 #include <iostream>
 
+#include <glad\glad.h>
+#include <GLFW\glfw3.h>
+
 namespace WarpEngine
 {
+
 	class GameWindow
 	{
+	private:
+		GLFWwindow* window;
 	public:
 		WARPENGINE_API GameWindow();
 		WARPENGINE_API ~GameWindow();
-		WARPENGINE_API void Init();
+		WARPENGINE_API int Init();
+		WARPENGINE_API int Create(int width, int height);
+		WARPENGINE_API void Render();
 	};
 }
