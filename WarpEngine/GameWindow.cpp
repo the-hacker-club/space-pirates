@@ -14,6 +14,7 @@ namespace WarpEngine
 
 	GameWindow::GameWindow()
 	{
+		init();
 	}
 
 
@@ -23,7 +24,7 @@ namespace WarpEngine
 		glfwTerminate();
 	}
 
-	int GameWindow::Init()
+	int GameWindow::init()
 	{
 
 		glfwInit();
@@ -39,7 +40,7 @@ namespace WarpEngine
 		return 0;
 	}
 
-	int GameWindow::Create(int width, int height)
+	int GameWindow::create(int width, int height)
 	{
 		window = glfwCreateWindow(width, height, "LearnOpenGL", NULL, NULL);
 		if (window == NULL)
@@ -61,8 +62,10 @@ namespace WarpEngine
 		return 0;
 	}
 
-	void GameWindow::Render()
+	void GameWindow::render()
 	{
+		processInput();
+
 		// render
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -70,6 +73,24 @@ namespace WarpEngine
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
         glfwPollEvents();
+	}
+
+	void GameWindow::setShouldClose(bool shouldClose)
+	{
+		glfwSetWindowShouldClose(window, shouldClose);
+	}
+
+	int GameWindow::shouldClose()
+	{
+		return glfwWindowShouldClose(window);
+	}
+
+	void GameWindow::processInput()
+	{
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		{
+			glfwSetWindowShouldClose(window, true);
+		}
 	}
 
 }

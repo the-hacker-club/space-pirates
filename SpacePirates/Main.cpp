@@ -9,16 +9,12 @@ int main() {
 
 	GameWindow* gameWindow = new GameWindow();
 
-	if (gameWindow->Init() != 0) {
-		cout << "Failed to initialize game window.\n";
-	}
-
-	if (gameWindow->Create(800, 600) != 0) {
+	if (gameWindow->create(800, 600) != 0) {
 		cout << "Failed to create window.\n";
 	}
 
-	while (true) {
-		gameWindow->Render();
+	while (!gameWindow->shouldClose()) {
+		gameWindow->render();
 	}
 
 	return 0;

@@ -18,11 +18,14 @@ namespace WarpEngine
 	{
 	private:
 		GLFWwindow* window;
+		void processInput();
 	public:
 		WARPENGINE_API GameWindow();
 		WARPENGINE_API ~GameWindow();
-		WARPENGINE_API int Init();
-		WARPENGINE_API int Create(int width, int height);
-		WARPENGINE_API void Render();
+		WARPENGINE_API int init();
+		WARPENGINE_API int create(int width, int height);
+		WARPENGINE_API void render();
+		WARPENGINE_API void setShouldClose(bool shouldClose);
+		WARPENGINE_API int shouldClose();
 	};
 }
