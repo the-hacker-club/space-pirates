@@ -1,8 +1,12 @@
-#include "stdafx.h"
 #include "GameWindow.h"
+
+#include "ObjectMesh.h"
 
 namespace WarpEngine
 {
+
+	GameWindow * GameWindow::_instance;
+	vector<ObjectMesh*> GameWindow::gameObjects;
 
 	// glfw: whenever the window size changed (by OS or user resize) this callback function executes
 	void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -14,7 +18,10 @@ namespace WarpEngine
 
 	GameWindow::GameWindow()
 	{
-		init();
+		if (_instance == NULL) {
+			init();
+			_instance = this;
+		}
 	}
 
 
@@ -22,6 +29,16 @@ namespace WarpEngine
 	{
 		// glfw: terminate, clearing all previously allocated GLFW resources.
 		glfwTerminate();
+	}
+
+	GameWindow * GameWindow::getInstance()
+	{
+		return _instance;
+	}
+
+	void GameWindow::add(ObjectMesh * gameObject)
+	{
+		gameObjects.push_back(gameObject);
 	}
 
 	int GameWindow::init()
@@ -59,6 +76,18 @@ namespace WarpEngine
 			return -1;
 		}    
 
+		// ====================
+		// Load shaders
+		// ====================
+
+		// Vertex Shader
+		Shader::loadVertexShader(Shader::basicVert);
+
+		// Fragment Shader
+		Shader::loadFragmentShader(Shader::basicFrag);
+
+		Shader::createProgram();
+
 		return 0;
 	}
 
@@ -69,6 +98,11 @@ namespace WarpEngine
 		// render
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+		// Render objects
+		for (auto &gameObject : gameObjects) {
+			gameObject->render();
+		}
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);

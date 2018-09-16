@@ -1,27 +1,30 @@
 #pragma once
 
-#ifdef WARPENGINE_EXPORTS
-#define WARPENGINE_API __declspec(dllexport)
-#else
-#define WARPENGINE_API __declspec(dllimport)
-#endif
+#include "_warpEngine.h"
 
 #include <iostream>
-
+#include <vector>
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
 
+#include "Shader.h"
+
 namespace WarpEngine
 {
+	class ObjectMesh;
 
 	class GameWindow
 	{
 	private:
-		GLFWwindow* window;
+		static GameWindow * _instance;
+		GLFWwindow * window;
 		void processInput();
+		static vector<ObjectMesh*> gameObjects;
 	public:
 		WARPENGINE_API GameWindow();
 		WARPENGINE_API ~GameWindow();
+		WARPENGINE_API static GameWindow * getInstance();
+		static void add(ObjectMesh * gameObject);
 		WARPENGINE_API int init();
 		WARPENGINE_API int create(int width, int height);
 		WARPENGINE_API void render();

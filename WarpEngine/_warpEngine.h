@@ -5,9 +5,3 @@
 #else
 #define WARPENGINE_API __declspec(dllimport)
 #endif
-
-#include "GameWindow.h"
-#include "ObjectMesh.h"
-
-// Utility
-#include "glslLoader.h"
