@@ -26,7 +26,7 @@ namespace WarpEngine
 	{
 		vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
-		glShaderSource(vertexShader, 1, &Shader::basicVert, NULL);
+		glShaderSource(vertexShader, 1, &vertexSource, NULL);
 		glCompileShader(vertexShader);
 
 		// Check for shader compile errors

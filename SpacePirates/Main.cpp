@@ -50,6 +50,8 @@ int main() {
 	ObjectMesh* triangle1 = new ObjectMesh(&triangle1Verts);
 	ObjectMesh* triangle2 = new ObjectMesh(&triangle2Verts);
 
+	string testVert = glslLoader::load("test.vert");
+	triangle2->addVertexShader(testVert.c_str());
 	string yellowFrag = glslLoader::load("yellow.frag");
 	triangle2->addFragmentShader(yellowFrag.c_str());
 	triangle2->updateShaderProgram();

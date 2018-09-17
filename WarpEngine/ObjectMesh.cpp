@@ -73,6 +73,7 @@ namespace WarpEngine
 
 	void ObjectMesh::render()
 	{
+		// TODO: add logic to set uniforms of shader programs before rendering
 		glUseProgram(this->shaderProgram);
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time
 		if (indices != NULL) {

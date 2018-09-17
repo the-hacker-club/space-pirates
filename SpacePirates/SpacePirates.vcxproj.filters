@@ -28,5 +28,8 @@
     <None Include="yellow.frag">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="test.vert">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
