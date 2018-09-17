@@ -57,6 +57,11 @@ namespace WarpEngine
 		// Unbind the VAO so other VAO calls won't accidentally modify this VAO	
 		glBindVertexArray(0);
 
+		// Wireframe mode
+		if (wireframeMode) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+
 		// Add this game object to the game window to be rendered
 		GameWindow::add(this);
 	}

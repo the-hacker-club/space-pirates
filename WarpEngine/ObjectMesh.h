@@ -18,6 +18,7 @@ namespace WarpEngine
 	private:
 		vector<float> * vertices;
 		vector<int> * indices;
+		bool wireframeMode;
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;
