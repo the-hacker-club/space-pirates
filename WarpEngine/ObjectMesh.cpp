@@ -41,6 +41,23 @@ namespace WarpEngine
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
+
+		// ====================
+		// Unbind buffers
+		// ====================
+
+		// Unbind the VBO as the call to glVertexAttribPointer registered
+		// VBO as the vertex attribute's bound vertex buffer object
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		// DO NOT unbind EBO while a VAO is active as the boudn element buffer object
+		// IS stored in the VAO
+		// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		// Unbind the VAO so other VAO calls won't accidentally modify this VAO	
+		glBindVertexArray(0);
+
+		// Add this game object to the game window to be rendered
 		GameWindow::add(this);
 	}
 
