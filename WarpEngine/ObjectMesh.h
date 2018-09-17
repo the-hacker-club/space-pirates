@@ -22,10 +22,16 @@ namespace WarpEngine
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;
+		vector<unsigned int> vertexShader = vector<unsigned int>();
+		vector<unsigned int> fragmentShader = vector<unsigned int>();
+		unsigned int shaderProgram;
 	public:
 		WARPENGINE_API ObjectMesh(vector<float> * vertices, vector<int> * indices);
 		WARPENGINE_API ObjectMesh(vector<float> * vertices);
 		WARPENGINE_API ~ObjectMesh();
+		WARPENGINE_API void addVertexShader(const char * vertexShader);
+		WARPENGINE_API void addFragmentShader(const char * fragmentShader);
+		WARPENGINE_API void updateShaderProgram();
 		WARPENGINE_API void render();
 	};
 

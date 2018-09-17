@@ -60,6 +60,7 @@ namespace WarpEngine
 		return fragmentShader;
 	}
 
+	// Creates a basic shader program using the basic vertex shader and basic fragment shader
 	unsigned int Shader::createProgram()
 	{
 		// link shaders
@@ -68,7 +69,6 @@ namespace WarpEngine
 		glAttachShader(shaderProgram, vertexShader);
 		glAttachShader(shaderProgram, fragmentShader);
 		glLinkProgram(shaderProgram);
-
 
 		// Check for program compile errors
 		int success;
@@ -82,6 +82,40 @@ namespace WarpEngine
 		// Delete shaders once we've linked them
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
+
+		return shaderProgram;
+	}
+
+	// Create a shader program with the list of vertex shaders and fragment shaders
+	unsigned int Shader::createProgram(vector<unsigned int> vertexShader, vector<unsigned int> fragmentShader)
+	{
+		// link shaders
+		shaderProgram = glCreateProgram();
+
+		for (auto &vshader : vertexShader) {
+			glAttachShader(shaderProgram, vshader);
+		}
+		for (auto &fshader : fragmentShader) {
+			glAttachShader(shaderProgram, fshader);
+		}
+		glLinkProgram(shaderProgram);
+
+		// Check for program compile errors
+		int success;
+		char infoLog[512];
+		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+		if (!success) {
+			glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+			cout << "ERROR::SHADER::PROGRAM::COMPILATION_FAILED\n" << infoLog << endl;
+		}
+		
+		// Delete shaders once we've linked them
+		for (auto &vshader : vertexShader) {
+			glDeleteShader(vshader);
+		}
+		for (auto &fshader : fragmentShader) {
+			glDeleteShader(fshader);
+		}
 
 		return shaderProgram;
 	}

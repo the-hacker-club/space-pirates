@@ -3,7 +3,7 @@
 namespace WarpEngine
 {
 
-	WARPENGINE_API const char * glslLoader::load(string fileName)
+	WARPENGINE_API string glslLoader::load(string fileName)
 	{
 		ifstream in(fileName);
 
@@ -12,7 +12,7 @@ namespace WarpEngine
 
 		cout << "\n" << content << "\n";
 
-		return content.c_str();
+		return content;
 	}
 
 }

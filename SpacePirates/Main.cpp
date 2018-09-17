@@ -30,12 +30,29 @@ int main() {
 		 0.0f,  0.5f, 0.0f
 	};
 
+	vector<float> triangle1Verts {
+		-1.0f, -0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f,
+		 0.0f, -0.5f, 0.0f
+	};
+
+	vector<float> triangle2Verts {
+		0.0f, -0.5f, 0.0f,
+		0.5f, 0.5f, 0.0f,
+		1.0f, -0.5f, 0.0f
+	};
+
 	vector<int> indicies{
 		0, 1, 3,
 		1, 2, 3
 	};
 
-	ObjectMesh* triangle = new ObjectMesh(&rectangleVerts, &indicies);
+	ObjectMesh* triangle1 = new ObjectMesh(&triangle1Verts);
+	ObjectMesh* triangle2 = new ObjectMesh(&triangle2Verts);
+
+	string yellowFrag = glslLoader::load("yellow.frag");
+	triangle2->addFragmentShader(yellowFrag.c_str());
+	triangle2->updateShaderProgram();
 
 	while (!gameWindow->shouldClose()) {
 		gameWindow->render();
