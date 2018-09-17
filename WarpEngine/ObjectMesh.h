@@ -16,11 +16,14 @@ namespace WarpEngine
 	class ObjectMesh
 	{
 	private:
-		vector<float> vertices;
+		vector<float> * vertices;
+		vector<int> * indices;
 		unsigned int VBO;
 		unsigned int VAO;
+		unsigned int EBO;
 	public:
-		WARPENGINE_API ObjectMesh(vector<float> vertices);
+		WARPENGINE_API ObjectMesh(vector<float> * vertices, vector<int> * indices);
+		WARPENGINE_API ObjectMesh(vector<float> * vertices);
 		WARPENGINE_API ~ObjectMesh();
 		WARPENGINE_API void render();
 	};
