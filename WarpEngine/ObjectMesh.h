@@ -4,6 +4,7 @@
 
 #include <glad\glad.h>
 #include <vector>
+#include <memory>
 #include "GameWindow.h"
 #include "glslLoader.h"
 #include "Shader.h"

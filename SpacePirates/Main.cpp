@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <chrono>
+#include <memory>
 
 #include "WarpEngine.h"
 
@@ -13,7 +14,7 @@ using namespace WarpEngine;
 
 int main() {
 
-	GameWindow* gameWindow = new GameWindow();
+	unique_ptr<GameWindow> gameWindow = make_unique<GameWindow>();
 
 	if (gameWindow->create(800, 600) != 0) {
 		cout << "Failed to create window.\n";
@@ -49,16 +50,16 @@ int main() {
 		1, 2, 3
 	};
 
-	ObjectMesh* triangle1 = new ObjectMesh(&triangle1Verts);
-	ObjectMesh* triangle2 = new ObjectMesh(&triangle2Verts);
+	unique_ptr<ObjectMesh> triangle1 = make_unique<ObjectMesh>(&triangle1Verts);
+	unique_ptr<ObjectMesh> triangle2 = make_unique<ObjectMesh>(&triangle2Verts);
 
 	string testVert = glslLoader::load("test.vert");
 	triangle2->addVertexShader(testVert.c_str());
 	string yellowFrag = glslLoader::load("yellow.frag");
 	triangle2->addFragmentShader(yellowFrag.c_str());
 	triangle2->updateShaderProgram();
-	Shader::Uniform4f * ourColor = new Shader::Uniform4f("ourColor", 0.0f, 0.0f, 0.0f, 1.0f);
-	triangle2->addShaderUniform(ourColor);
+	unique_ptr<Shader::Uniform4f> ourColor = make_unique<Shader::Uniform4f>("ourColor", 0.0f, 0.0f, 0.0f, 1.0f);
+	triangle2->addShaderUniform(ourColor.get());
 
 	while (!gameWindow->shouldClose()) {
 		ourColor->y = (sin(getTime()) / 2.0f) + 0.5f;
