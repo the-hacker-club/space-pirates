@@ -73,8 +73,13 @@ namespace WarpEngine
 
 	void ObjectMesh::render()
 	{
-		// TODO: add logic to set uniforms of shader programs before rendering
 		glUseProgram(this->shaderProgram);
+
+		// For each uniform, set it in the shader program
+		for(Shader::Uniformf * uniform : this->uniforms) {
+			uniform->updateUniform();
+		}
+
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time
 		if (indices != NULL) {
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -121,6 +126,14 @@ namespace WarpEngine
 
 		// Update Program
 		this->shaderProgram = Shader::createProgram(this->vertexShader, this->fragmentShader);
+	}
+
+	// Add a value to set a uniform to in the shader program
+	void ObjectMesh::addShaderUniform(Shader::Uniformf * uniform)
+	{
+		uniform->location = glGetUniformLocation(this->shaderProgram, uniform->name.c_str());
+
+		this->uniforms.push_back(uniform);
 	}
 
 }

@@ -25,6 +25,7 @@ namespace WarpEngine
 		vector<unsigned int> vertexShader = vector<unsigned int>();
 		vector<unsigned int> fragmentShader = vector<unsigned int>();
 		unsigned int shaderProgram;
+		vector<Shader::Uniformf*> uniforms = vector<Shader::Uniformf*>();
 	public:
 		WARPENGINE_API ObjectMesh(vector<float> * vertices, vector<int> * indices);
 		WARPENGINE_API ObjectMesh(vector<float> * vertices);
@@ -32,6 +33,7 @@ namespace WarpEngine
 		WARPENGINE_API void addVertexShader(const char * vertexShader);
 		WARPENGINE_API void addFragmentShader(const char * fragmentShader);
 		WARPENGINE_API void updateShaderProgram();
+		WARPENGINE_API void addShaderUniform(Shader::Uniformf * uniform);
 		WARPENGINE_API void render();
 	};
 

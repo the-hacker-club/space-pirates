@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/Debug/SpacePirates.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/SpacePirates",
             "environment": [],
             "externalConsole": true
         }

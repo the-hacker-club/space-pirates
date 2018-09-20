@@ -12,6 +12,27 @@ namespace WarpEngine {
 	class Shader
 	{
 	public:
+		class Uniformf {
+		protected:
+			Uniformf(string name);
+		public:
+			string name;
+			int location;
+			virtual void updateUniform() = 0;
+			virtual ~Uniformf() { };
+		};
+
+		class Uniform4f: public Uniformf {
+		public:
+			float x;
+			float y;
+			float z;
+			float w;
+			WARPENGINE_API Uniform4f(string name, float x, float y, float z, float w);
+			virtual void updateUniform();
+			virtual ~Uniform4f() { };
+		};
+
 		// The basicVert shader loaded into gl
 		static unsigned int vertexShader;
 		// The basicFrag shader loaded into gl

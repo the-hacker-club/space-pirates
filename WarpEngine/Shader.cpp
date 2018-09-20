@@ -22,6 +22,21 @@ namespace WarpEngine
 	unsigned int Shader::fragmentShader;
 	unsigned int Shader::shaderProgram;
 
+	Shader::Uniformf::Uniformf(string name): name(name)
+	{
+	}
+
+	Shader::Uniform4f::Uniform4f(string name, float x, float y, float z, float w): Shader::Uniformf(name), x(x), y(y), z(z), w(w)
+	{
+	}
+
+	// Updates the value of the uniform in the shader program to the value stored in this uniform
+	void Shader::Uniform4f::updateUniform()
+	{
+		glUniform4f(this->location, this->x, this->y, this->z, this->w);
+	}
+
+	// Loads the source code for a vertex shader into gl and returns a reference to it
 	unsigned int Shader::loadVertexShader(const char * vertexSource)
 	{
 		vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -41,6 +56,7 @@ namespace WarpEngine
 		return vertexShader;
 	}
 
+	// Loads the source code for a fragment shader into gl and returns a reference to it
 	unsigned int Shader::loadFragmentShader(const char * fragmentSource)
 	{
 		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -120,6 +136,7 @@ namespace WarpEngine
 		return shaderProgram;
 	}
 
+	// Tells gl to use the shaderProgram
 	void Shader::useProgram(unsigned int shaderProgram)
 	{
 		// 2. use our shader program when we want to render an object

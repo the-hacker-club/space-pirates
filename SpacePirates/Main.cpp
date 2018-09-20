@@ -3,10 +3,12 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <chrono>
 
 #include "WarpEngine.h"
 
 using namespace std;
+using namespace std::chrono;
 using namespace WarpEngine;
 
 int main() {
@@ -55,8 +57,12 @@ int main() {
 	string yellowFrag = glslLoader::load("yellow.frag");
 	triangle2->addFragmentShader(yellowFrag.c_str());
 	triangle2->updateShaderProgram();
+	Shader::Uniform4f * ourColor = new Shader::Uniform4f("ourColor", 0.0f, 0.0f, 0.0f, 1.0f);
+	triangle2->addShaderUniform(ourColor);
 
 	while (!gameWindow->shouldClose()) {
+		ourColor->y = (sin(getTime()) / 2.0f) + 0.5f;
+
 		gameWindow->render();
 	}
 

@@ -11,3 +11,7 @@
 
 // Utility
 #include "glslLoader.h"
+
+namespace WarpEngine {
+    WARPENGINE_API double getTime();
+}
