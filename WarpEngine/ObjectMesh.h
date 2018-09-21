@@ -8,6 +8,7 @@
 #include "GameWindow.h"
 #include "glslLoader.h"
 #include "Shader.h"
+#include "VertexData.h"
 
 using namespace std;
 
@@ -17,9 +18,8 @@ namespace WarpEngine
 	class ObjectMesh
 	{
 	private:
-		vector<float> * vertices;
-		vector<int> * indices;
 		bool wireframeMode;
+        VertexData * vData;
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;
@@ -27,13 +27,13 @@ namespace WarpEngine
 		vector<unsigned int> fragmentShader = vector<unsigned int>();
 		unsigned int shaderProgram;
 		vector<Shader::Uniformf*> uniforms = vector<Shader::Uniformf*>();
+	protected:
+		void updateShaderProgram();
 	public:
-		WARPENGINE_API ObjectMesh(vector<float> * vertices, vector<int> * indices);
-		WARPENGINE_API ObjectMesh(vector<float> * vertices);
+		WARPENGINE_API ObjectMesh(VertexData * vData);
 		WARPENGINE_API ~ObjectMesh();
 		WARPENGINE_API void addVertexShader(const char * vertexShader);
 		WARPENGINE_API void addFragmentShader(const char * fragmentShader);
-		WARPENGINE_API void updateShaderProgram();
 		WARPENGINE_API void addShaderUniform(Shader::Uniformf * uniform);
 		WARPENGINE_API void render();
 	};

@@ -8,6 +8,8 @@
 
 #include "GameWindow.h"
 #include "ObjectMesh.h"
+#include "VertexData.h"
+#include "vAttribute.h"
 
 // Utility
 #include "glslLoader.h"

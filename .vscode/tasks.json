@@ -16,6 +16,23 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "rebuild",
+            "type": "process",
+            "command": "devenv",
+            "args": [
+                "WarpEngine.sln",
+                "/rebuild",
+                "Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
         }
     ]
 }

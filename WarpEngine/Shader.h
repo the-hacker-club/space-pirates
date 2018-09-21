@@ -45,6 +45,7 @@ namespace WarpEngine {
 		WARPENGINE_API static unsigned int createProgram();
 		WARPENGINE_API static unsigned int createProgram(vector<unsigned int> vertexShader, vector<unsigned int> fragmentShader);
 		WARPENGINE_API static void useProgram(unsigned int shaderProgram);
+		WARPENGINE_API void useProgram();
 		static unsigned int shaderProgram;
 	};
 }
