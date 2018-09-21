@@ -12,6 +12,7 @@ namespace WarpEngine {
 	class Shader
 	{
 	public:
+        // TODO: Remove this class and instead add a setFloat, setBool.. method on the shader
 		class Uniformf {
 		protected:
 			Uniformf(string name);
