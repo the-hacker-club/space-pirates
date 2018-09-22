@@ -6,8 +6,15 @@
 #include <vector>
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <memory>
 
 #include "Shader.h"
+#include "Camera.h"
+
+using namespace std;
 
 namespace WarpEngine
 {
@@ -21,6 +28,10 @@ namespace WarpEngine
 		void processInput();
 		static vector<ObjectMesh*> gameObjects;
 	public:
+        int width;
+        int height;
+        unique_ptr<Camera> mainCamera;
+
 		WARPENGINE_API GameWindow();
 		WARPENGINE_API ~GameWindow();
 		WARPENGINE_API static GameWindow * getInstance();

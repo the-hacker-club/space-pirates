@@ -59,6 +59,9 @@ namespace WarpEngine
 
 	int GameWindow::create(int width, int height)
 	{
+        this->width = width;
+        this->height = height;
+
 		window = glfwCreateWindow(width, height, "LearnOpenGL", NULL, NULL);
 		if (window == NULL)
 		{
@@ -75,6 +78,10 @@ namespace WarpEngine
 			std::cout << "Failed to initialize GLAD" << std::endl;
 			return -1;
 		}    
+
+        // Create a default main camera
+        mainCamera = make_unique<Camera>();
+        mainCamera->translate(0.0f, 0.0f, -3.0f);
 
 		return 0;
 	}

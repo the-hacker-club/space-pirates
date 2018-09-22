@@ -19,18 +19,38 @@ using namespace glm;
 
 namespace WarpEngine
 {
+    enum Axis
+    {
+        X_AXIS,
+        Y_AXIS,
+        Z_AXIS
+    };
 
 	class ObjectMesh
 	{
 	private:
+
         class Rotation
         {
         public:
-            float degree;
-            vec3 axis;
-            Rotation(float degree, vec3 axis) : degree(degree), axis(axis)
+            float x_degree = 0.0f;
+            float y_degree = 0.0f;
+            float z_degree = 0.0f;
+            Rotation() { }
+            void set(float x, float y, float z) {
+                this->x_degree = x;
+                this->y_degree = y;
+                this->z_degree = z;
+            }
+            void rotate(float degree, Axis axis)
             {
-
+                if (axis == X_AXIS) {
+                    this->x_degree += degree;
+                } else if (axis == Y_AXIS) {
+                    this->y_degree += degree;
+                } else if (axis == Z_AXIS) {
+                    this->z_degree += degree;
+                }
             }
         };
 
@@ -62,7 +82,7 @@ namespace WarpEngine
         mat4 _transform = mat4(1.0f);
         vec3 _translation = vec3(0.0f, 0.0f, 0.0f);
         vec3 _scale = vec3(1.0f, 1.0f, 1.0f);
-        Rotation _rotation = Rotation(0.0f, vec3(1.0f, 0.0f, 0.0f));
+        Rotation _rotation = Rotation();
 	public:
         Shader shader;
 		WARPENGINE_API ObjectMesh(VertexData * vData);
@@ -72,10 +92,10 @@ namespace WarpEngine
 		WARPENGINE_API void render();
 		WARPENGINE_API void translate(vec3 translate);
 		WARPENGINE_API void translate(float x, float y, float z);
-		WARPENGINE_API void rotate(bool radians, float degrees, vec3 axis);
-		WARPENGINE_API void rotate(float degrees, vec3 axis);
-		WARPENGINE_API void rotate(bool radians, float degrees, float x, float y, float z);
-		WARPENGINE_API void rotate(float degrees, float x, float y, float z);
+		WARPENGINE_API void setRotation(bool radians, float degrees, Axis axis);
+		WARPENGINE_API void setRotation(float degrees, Axis axis);
+		WARPENGINE_API void rotate(bool radians, float degrees, Axis axis);
+		WARPENGINE_API void rotate(float degrees, Axis axis);
 		WARPENGINE_API void scale(vec3 scale);
 		WARPENGINE_API void scale(float x, float y, float z);
 	};

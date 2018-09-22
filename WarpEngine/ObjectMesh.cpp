@@ -80,12 +80,24 @@ namespace WarpEngine
         this->_transform = mat4(1.0f);
         // Keep this order for now, but eventuatlly we may need to push translations into a stack
         // and pop them and apply them in the order they were received.
-        this->_transform = glm::translate(this->_transform, this->_translation);
-        this->_transform = glm::rotate(this->_transform, this->_rotation.degree, this->_rotation.axis);
-        this->_transform = glm::scale(this->_transform, this->_scale);
-        this->shader.setMatrix("transform", this->_transform);
 
-        // reset the transform after we've applied it
+        // translate
+        this->_transform = glm::translate(this->_transform, this->_translation);
+
+        // rotate
+        this->_transform = glm::rotate(this->_transform, this->_rotation.x_degree, vec3(1.0f, 0.0f, 0.0f));
+        this->_transform = glm::rotate(this->_transform, this->_rotation.y_degree, vec3(0.0f, 1.0f, 0.0f));
+        this->_transform = glm::rotate(this->_transform, this->_rotation.z_degree, vec3(0.0f, 0.0f, 1.0f));
+
+        // scale
+        this->_transform = glm::scale(this->_transform, this->_scale);
+        this->shader.setMatrix("model", this->_transform);
+
+        // we don't need to reset these values (for now) because we only update them once, not each frame
+        this->shader.setMatrix("view", GameWindow::getInstance()->mainCamera->viewMatrix);
+        this->shader.setMatrix("projection", GameWindow::getInstance()->mainCamera->projectionMatrix);
+
+        // reset the model after we've applied it
         this->_transform = mat4(1.0f);
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time
@@ -154,28 +166,41 @@ namespace WarpEngine
         this->_translation = translate;
     }
 
-    // Rotate the objects transform by degrees, over the axis.
-    // Note, the axis must be normalized first.
-    void ObjectMesh::rotate(bool radians, float degrees, vec3 axis)
+    // Sets the rotation of the object.
+    void ObjectMesh::setRotation(bool radians, float degrees, Axis axis)
     {
         float angle = degrees;
         if (radians) {
             angle = glm::radians(degrees);
         }
-        this->_rotation = Rotation(angle, axis);
+
+        if (axis == X_AXIS) {
+            this->_rotation.set(angle, 0.0f, 0.0f);
+        } else if (axis == Y_AXIS) {
+            this->_rotation.set(0.0f, angle, 0.0f);
+        } else if (axis == Z_AXIS) {
+            this->_rotation.set(0.0f, 0.0f, angle);
+        }
     }
 
-    void ObjectMesh::rotate(bool radians, float degrees, float x, float y, float z)
+    void ObjectMesh::setRotation(float degrees, Axis axis)
     {
-        rotate(radians, degrees, vec3(x, y, z));
+        setRotation(false, degrees, axis);
     }
 
-    void ObjectMesh::rotate(float degrees, float x, float y, float z)
+    // Rotate the objects transform by degrees, over the axis.
+    // This will add to any previous rotation present.
+    // Also see setRotation
+    void ObjectMesh::rotate(bool radians, float degrees, Axis axis)
     {
-        rotate(false, degrees, x, y, z);
+        float angle = degrees;
+        if (radians) {
+            angle = glm::radians(degrees);
+        }
+        this->_rotation.rotate(angle, axis);
     }
 
-    void ObjectMesh::rotate(float degrees, vec3 axis)
+    void ObjectMesh::rotate(float degrees, Axis axis)
     {
         rotate(false, degrees, axis);
     }

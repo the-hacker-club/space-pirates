@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="glslLoader.h" />
     <ClInclude Include="ObjectMesh.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="WarpEngine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="glad.c" />

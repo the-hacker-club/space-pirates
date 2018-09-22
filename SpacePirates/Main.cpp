@@ -111,14 +111,25 @@ int main() {
     // 5. Main Game Loop
     //====================
 
+    // update the main camera
+    gameWindow->mainCamera->translate(0.0f, 0.0f, -3.0f);
+
+    // triangle1->rotate(true, -55.0f, Axis::X_AXIS);
+    // triangle2->rotate(true, -55.0f, Axis::X_AXIS);
+
 	while (!gameWindow->shouldClose()) {
         // Update Objects
         triangle1->translate(-0.5f, 0.5f, 0.0f);
         float scale = sin((float)getTime());
-        triangle1->scale(scale, scale, 1.0f);
+        // triangle1->scale(scale, scale, 1.0f);
+        // triangle1->rotate(true, -55.0f, Axis::X_AXIS);
+        triangle1->setRotation(true, -55.0f, Axis::X_AXIS);
 
         triangle2->translate(0.5f, -0.5f, 0.0f);
-        triangle2->rotate((float)getTime(), 0.0f, 0.0f, 1.0f);
+        cout << (float)getTime() << endl;
+        triangle2->setRotation(true, (float)getTime() * 10, Axis::Z_AXIS);
+        triangle2->rotate(true, -55.0f, Axis::X_AXIS);
+        // triangle2->rotate(-55.0f, Axis::X_AXIS);
 
         // Render Objects
 		gameWindow->render();
