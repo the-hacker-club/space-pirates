@@ -32,9 +32,9 @@ int main() {
     // Create Vertex Data for triangle 1
 	vector<float> triangle1Verts {
 		// position         	// colors           // texture coords
-		-1.0f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // bottom left
-		-0.5f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f,   0.5f, 1.0f, // top
-		 0.0f, -0.5f, 0.0f,     0.0f, 0.0f, 1.0f,   1.0f, 0.0f  // bottom right
+		-0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // bottom left
+		 0.0f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f,   0.5f, 1.0f, // top
+		 0.5f, -0.5f, 0.0f,     0.0f, 0.0f, 1.0f,   1.0f, 0.0f  // bottom right
 	};
 
     // Specify vertex attribute data
@@ -55,10 +55,10 @@ int main() {
 	};
 	vector<float> rectangleColorVerts {
          // positions        // colors          // texture coords
-		 1.0f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // top right
-		 1.0f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f, // bottom right
-		 0.0f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f, // bottom left
-		 0.0f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f  // top left 
+		 0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // top right
+		 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f, // bottom left
+		-0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f  // top left 
 	};
 	vector<int> indicies{
 		0, 1, 3,
@@ -112,8 +112,15 @@ int main() {
     //====================
 
 	while (!gameWindow->shouldClose()) {
-        // Update uniform values here
+        // Update Objects
+        triangle1->translate(-0.5f, 0.5f, 0.0f);
+        float scale = sin((float)getTime());
+        triangle1->scale(scale, scale, 1.0f);
 
+        triangle2->translate(0.5f, -0.5f, 0.0f);
+        triangle2->rotate((float)getTime(), 0.0f, 0.0f, 1.0f);
+
+        // Render Objects
 		gameWindow->render();
 	}
 

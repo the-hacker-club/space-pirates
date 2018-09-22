@@ -18,10 +18,6 @@ namespace WarpEngine
 	"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 	"}\n\0";
 
-	// unsigned int Shader::vertexShader;
-	// unsigned int Shader::fragmentShader;
-	// unsigned int Shader::shaderProgram;
-
     Shader::Shader()
     {
 
@@ -250,4 +246,10 @@ namespace WarpEngine
         glUseProgram(this->shaderProgram);
 		glUniform4f(glGetUniformLocation(this->shaderProgram, name.c_str()), v1, v2, v3, v4);
 	}
+
+    void Shader::setMatrix(string name, mat4 matrix)
+    {
+        glUseProgram(this->shaderProgram);
+        glUniformMatrix4fv(glGetUniformLocation(this->shaderProgram, name.c_str()), 1, GL_FALSE, value_ptr(matrix));
+    }
 }

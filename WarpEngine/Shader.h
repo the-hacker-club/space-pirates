@@ -5,10 +5,14 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "glslLoader.h"
 
 using namespace std;
+using namespace glm;
 
 namespace WarpEngine {
 	class Shader
@@ -43,6 +47,7 @@ namespace WarpEngine {
 		WARPENGINE_API void setFloat(string name, float v1, float v2);
 		WARPENGINE_API void setFloat(string name, float v1, float v2, float v3);
 		WARPENGINE_API void setFloat(string name, float v1, float v2, float v3, float v4);
+		WARPENGINE_API void setMatrix(string name, mat4 matrix);
 	};
 }
 

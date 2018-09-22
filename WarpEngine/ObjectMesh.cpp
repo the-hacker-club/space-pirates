@@ -71,10 +71,22 @@ namespace WarpEngine
         this->shader.useProgram();
 
         // bind each texture
-        for(int i=0; i<this->texture.size(); i++) {
+        for(unsigned int i=0; i < this->texture.size(); i++) {
             glActiveTexture(glTexture[i]);
             glBindTexture(GL_TEXTURE_2D, this->texture[i]);
         }
+
+        // apply transforms
+        this->_transform = mat4(1.0f);
+        // Keep this order for now, but eventuatlly we may need to push translations into a stack
+        // and pop them and apply them in the order they were received.
+        this->_transform = glm::translate(this->_transform, this->_translation);
+        this->_transform = glm::rotate(this->_transform, this->_rotation.degree, this->_rotation.axis);
+        this->_transform = glm::scale(this->_transform, this->_scale);
+        this->shader.setMatrix("transform", this->_transform);
+
+        // reset the transform after we've applied it
+        this->_transform = mat4(1.0f);
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time
 		if (this->vData->indices != NULL) {
@@ -130,4 +142,51 @@ namespace WarpEngine
         texture.push_back(textureID);
     }
 
+    void ObjectMesh::translate(float x, float y, float z)
+    {
+        // TODO: apply this translation to the previous translation
+        this->_translation = vec3(x, y, z);
+    }
+
+    void ObjectMesh::translate(vec3 translate)
+    {
+        // TODO: apply this translation to the previous translation
+        this->_translation = translate;
+    }
+
+    // Rotate the objects transform by degrees, over the axis.
+    // Note, the axis must be normalized first.
+    void ObjectMesh::rotate(bool radians, float degrees, vec3 axis)
+    {
+        float angle = degrees;
+        if (radians) {
+            angle = glm::radians(degrees);
+        }
+        this->_rotation = Rotation(angle, axis);
+    }
+
+    void ObjectMesh::rotate(bool radians, float degrees, float x, float y, float z)
+    {
+        rotate(radians, degrees, vec3(x, y, z));
+    }
+
+    void ObjectMesh::rotate(float degrees, float x, float y, float z)
+    {
+        rotate(false, degrees, x, y, z);
+    }
+
+    void ObjectMesh::rotate(float degrees, vec3 axis)
+    {
+        rotate(false, degrees, axis);
+    }
+
+    void ObjectMesh::scale(vec3 scale)
+    {
+        this->_scale = scale;
+    }
+
+    void ObjectMesh::scale(float x, float y, float z)
+    {
+        this->_scale = vec3(x, y, z);
+    }
 }

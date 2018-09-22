@@ -5,12 +5,17 @@
 #include <glad\glad.h>
 #include <vector>
 #include <memory>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "GameWindow.h"
 #include "Shader.h"
 #include "VertexData.h"
 #include "stb_image.h"
 
 using namespace std;
+using namespace glm;
 
 namespace WarpEngine
 {
@@ -18,6 +23,17 @@ namespace WarpEngine
 	class ObjectMesh
 	{
 	private:
+        class Rotation
+        {
+        public:
+            float degree;
+            vec3 axis;
+            Rotation(float degree, vec3 axis) : degree(degree), axis(axis)
+            {
+
+            }
+        };
+
         const unsigned int glTexture[16] =
         {
             GL_TEXTURE0,
@@ -43,7 +59,10 @@ namespace WarpEngine
 		unsigned int VAO;
 		unsigned int EBO;
         vector<unsigned int> texture = vector<unsigned int>();
-	protected:
+        mat4 _transform = mat4(1.0f);
+        vec3 _translation = vec3(0.0f, 0.0f, 0.0f);
+        vec3 _scale = vec3(1.0f, 1.0f, 1.0f);
+        Rotation _rotation = Rotation(0.0f, vec3(1.0f, 0.0f, 0.0f));
 	public:
         Shader shader;
 		WARPENGINE_API ObjectMesh(VertexData * vData);
@@ -51,6 +70,14 @@ namespace WarpEngine
 		WARPENGINE_API unsigned int loadTexture(string texturePath, bool hasAlpha);
 		WARPENGINE_API void addTexture(unsigned int textureID);
 		WARPENGINE_API void render();
+		WARPENGINE_API void translate(vec3 translate);
+		WARPENGINE_API void translate(float x, float y, float z);
+		WARPENGINE_API void rotate(bool radians, float degrees, vec3 axis);
+		WARPENGINE_API void rotate(float degrees, vec3 axis);
+		WARPENGINE_API void rotate(bool radians, float degrees, float x, float y, float z);
+		WARPENGINE_API void rotate(float degrees, float x, float y, float z);
+		WARPENGINE_API void scale(vec3 scale);
+		WARPENGINE_API void scale(float x, float y, float z);
 	};
 
 }
