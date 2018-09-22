@@ -18,71 +18,118 @@ namespace WarpEngine
 	"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 	"}\n\0";
 
-	unsigned int Shader::vertexShader;
-	unsigned int Shader::fragmentShader;
-	unsigned int Shader::shaderProgram;
+	// unsigned int Shader::vertexShader;
+	// unsigned int Shader::fragmentShader;
+	// unsigned int Shader::shaderProgram;
 
-	Shader::Uniformf::Uniformf(string name): name(name)
-	{
-	}
+    Shader::Shader()
+    {
 
-	Shader::Uniform4f::Uniform4f(string name, float x, float y, float z, float w): Shader::Uniformf(name), x(x), y(y), z(z), w(w)
-	{
-	}
+    }
 
-	// Updates the value of the uniform in the shader program to the value stored in this uniform
-	void Shader::Uniform4f::updateUniform()
-	{
-		glUniform4f(this->location, this->x, this->y, this->z, this->w);
-	}
+    Shader::~Shader()
+    {
+
+    }
 
 	// Loads the source code for a vertex shader into gl and returns a reference to it
-	unsigned int Shader::loadVertexShader(const char * vertexSource)
-	{
-		vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	unsigned int Shader::loadVertexShader(const char * vertexSourcePath)
+    {
+        string vertexShader = glslLoader::load(vertexSourcePath);
+        return loadVertexShaderFromString(vertexShader);
+    }
 
-		glShaderSource(vertexShader, 1, &vertexSource, NULL);
-		glCompileShader(vertexShader);
+	// Loads the source code for a vertex shader into gl and returns a reference to it
+	unsigned int Shader::loadVertexShaderFromString(string vertexSource)
+	{
+		unsigned int vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+
+        const char * vShaderCode = vertexSource.c_str();
+		glShaderSource(vertexShaderID, 1, &vShaderCode, NULL);
+		glCompileShader(vertexShaderID);
 
 		// Check for shader compile errors
 		int success;
 		char infoLog[512];
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+		glGetShaderiv(vertexShaderID, GL_COMPILE_STATUS, &success);
 		if (!success) {
-			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+			glGetShaderInfoLog(vertexShaderID, 512, NULL, infoLog);
 			cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << endl;
 		}
 		
-		return vertexShader;
+		return vertexShaderID;
 	}
 
-	// Loads the source code for a fragment shader into gl and returns a reference to it
-	unsigned int Shader::loadFragmentShader(const char * fragmentSource)
+	// Add a new vertex shader to the list of vertex shaders used on this object.
+	void Shader::addVertexShader(const char * vertexShaderPath)
 	{
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		unsigned int shader = loadVertexShader(vertexShaderPath);
+		this->vertexShader.push_back(shader);
 
-		glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-		glCompileShader(fragmentShader);
+		updateShaderProgram();
+	}
+
+	// Add a new vertex shader to the list of vertex shaders used on this object.
+	void Shader::addVertexShader(unsigned int vertexShaderID)
+	{
+		this->vertexShader.push_back(vertexShaderID);
+
+		updateShaderProgram();
+	}
+
+	unsigned int Shader::loadFragmentShader(const char * fragmentSourcePath)
+    {
+        string fragmentShader = glslLoader::load(fragmentSourcePath);
+        return loadFragmentShaderFromString(fragmentShader);
+    }
+
+	// Loads the source code for a fragment shader into gl and returns a reference to it
+	unsigned int Shader::loadFragmentShaderFromString(string fragmentSource)
+	{
+		unsigned int fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+
+        const char * fShaderCode = fragmentSource.c_str();
+		glShaderSource(fragmentShaderID, 1, &fShaderCode, NULL);
+		glCompileShader(fragmentShaderID);
 
 		// Check for shader compile errors
 		int success;
 		char infoLog[512];
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+		glGetShaderiv(fragmentShaderID, GL_COMPILE_STATUS, &success);
 		if (!success) {
-			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+			glGetShaderInfoLog(fragmentShaderID, 512, NULL, infoLog);
 			cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << endl;
 		}
 		
-		return fragmentShader;
+		return fragmentShaderID;
+	}
+
+	// Add a new fragment shader to the list of fragment shaders used on this object.
+	void Shader::addFragmentShader(const char * fragmentShaderPath)
+	{
+		unsigned int shader = loadFragmentShader(fragmentShaderPath);
+		this->fragmentShader.push_back(shader);
+
+		updateShaderProgram();
+	}
+
+	// Add a new fragment shader to the list of fragment shaders used on this object.
+	void Shader::addFragmentShader(unsigned int fragmentShaderID)
+	{
+		this->fragmentShader.push_back(fragmentShaderID);
+
+		updateShaderProgram();
 	}
 
 	// Creates a basic shader program using the basic vertex shader and basic fragment shader
-	unsigned int Shader::createProgram()
+	unsigned int Shader::_createProgramUsingBasicShaders()
 	{
 		// link shaders
 		shaderProgram = glCreateProgram();
 
+		unsigned int vertexShader = loadFragmentShader(basicVert);
 		glAttachShader(shaderProgram, vertexShader);
+		unsigned int fragmentShader = loadFragmentShader(basicFrag);
 		glAttachShader(shaderProgram, fragmentShader);
 		glLinkProgram(shaderProgram);
 
@@ -103,14 +150,15 @@ namespace WarpEngine
 	}
 
 	// Create a shader program with the list of vertex shaders and fragment shaders
-	unsigned int Shader::createProgram(vector<unsigned int> vertexShader, vector<unsigned int> fragmentShader)
+	unsigned int Shader::_createProgram(vector<unsigned int> vertexShader, vector<unsigned int> fragmentShader)
 	{
 		// link shaders
-		shaderProgram = glCreateProgram();
+		unsigned int shaderProgram = glCreateProgram();
 
 		for (auto &vshader : vertexShader) {
 			glAttachShader(shaderProgram, vshader);
 		}
+
 		for (auto &fshader : fragmentShader) {
 			glAttachShader(shaderProgram, fshader);
 		}
@@ -136,12 +184,70 @@ namespace WarpEngine
 		return shaderProgram;
 	}
 
-	// Tells gl to use the shaderProgram
-	void Shader::useProgram(unsigned int shaderProgram)
+	// Update the shader program with the current list of vertexShaders and fragmentShaders
+	void Shader::updateShaderProgram()
 	{
+		vector<unsigned int> updateVShader = vector<unsigned int>();
+		// Use the default vertex shader if none are present
+		if (this->vertexShader.size() == 0) {
+			updateVShader.push_back(Shader::loadVertexShaderFromString(Shader::basicVert));
+		} else {
+			updateVShader = this->vertexShader;
+		}
+
+		vector<unsigned int> updateFShader = vector<unsigned int>();
+		// Use the default fragment shader if none are present
+		if (this->fragmentShader.size() == 0) {
+			updateFShader.push_back(Shader::loadFragmentShaderFromString(Shader::basicFrag));
+		} else {
+			updateFShader = this->fragmentShader;
+		}
+
+		// Update Program
+		this->shaderProgram = Shader::_createProgram(updateVShader, updateFShader);
+	}
+
+	// Tells gl to use this shaderProgram
+	void Shader::useProgram()
+	{
+        // TODO add a check to see if our program has been created yet
+
 		// 2. use our shader program when we want to render an object
 		glUseProgram(shaderProgram);
 	}
 
+	// Add a value to set a uniform to in the shader program
+	void Shader::setInt(string name, int v1)
+	{
+        glUseProgram(this->shaderProgram);
+		glUniform1i(glGetUniformLocation(this->shaderProgram, name.c_str()), v1);
+	}
 
+	// Add a value to set a uniform to in the shader program
+	void Shader::setFloat(string name, float v1)
+	{
+        glUseProgram(this->shaderProgram);
+		glUniform1f(glGetUniformLocation(this->shaderProgram, name.c_str()), v1);
+	}
+
+	// Add a value to set a uniform to in the shader program
+	void Shader::setFloat(string name, float v1, float v2)
+	{
+        glUseProgram(this->shaderProgram);
+		glUniform2f(glGetUniformLocation(this->shaderProgram, name.c_str()), v1, v2);
+	}
+
+	// Add a value to set a uniform to in the shader program
+	void Shader::setFloat(string name, float v1, float v2, float v3)
+	{
+        glUseProgram(this->shaderProgram);
+		glUniform3f(glGetUniformLocation(this->shaderProgram, name.c_str()), v1, v2, v3);
+	}
+
+	// Add a value to set a uniform to in the shader program
+	void Shader::setFloat(string name, float v1, float v2, float v3, float v4)
+	{
+        glUseProgram(this->shaderProgram);
+		glUniform4f(glGetUniformLocation(this->shaderProgram, name.c_str()), v1, v2, v3, v4);
+	}
 }

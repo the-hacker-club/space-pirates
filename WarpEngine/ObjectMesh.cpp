@@ -55,8 +55,8 @@ namespace WarpEngine
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
-		// Use the default shader program
-		this->shaderProgram = Shader::shaderProgram;
+        // Call this to compile the default shaders
+        this->shader.updateShaderProgram();
 
 		// Add this game object to the game window to be rendered
 		GameWindow::add(this);
@@ -68,12 +68,13 @@ namespace WarpEngine
 
 	void ObjectMesh::render()
 	{
-		glUseProgram(this->shaderProgram);
+        this->shader.useProgram();
 
-		// For each uniform, set it in the shader program
-		for(Shader::Uniformf * uniform : this->uniforms) {
-			uniform->updateUniform();
-		}
+        // bind each texture
+        for(int i=0; i<this->texture.size(); i++) {
+            glActiveTexture(glTexture[i]);
+            glBindTexture(GL_TEXTURE_2D, this->texture[i]);
+        }
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time
 		if (this->vData->indices != NULL) {
@@ -84,55 +85,49 @@ namespace WarpEngine
 		// glBindVertexArray(0); // no need to unbind it every time
 	}
 
-	// Add a new vertex shader to the list of vertex shaders used on this object.
-	// Must make a call to updateShaderProgram() afterwards.
-	void ObjectMesh::addVertexShader(const char * vertexShader)
-	{
-		unsigned int shader = Shader::loadVertexShader(vertexShader);
-		this->vertexShader.push_back(shader);
+    // load a new texture and apply it to this object. Returns the reference id to the texture loaded
+    unsigned int ObjectMesh::loadTexture(string texturePath, bool hasAlpha)
+    {
+        unsigned int texture;
+        // load the texture
+        glGenTextures(1, &texture);
 
-		updateShaderProgram();
-	}
+        // bind the texture
+        glBindTexture(GL_TEXTURE_2D, texture);
 
-	// Add a new fragment shader to the list of fragment shaders used on this object.
-	// Must make a call to updateShaderProgram() afterwards.
-	void ObjectMesh::addFragmentShader(const char * fragmentShader)
-	{
-		unsigned int shader = Shader::loadFragmentShader(fragmentShader);
-		this->fragmentShader.push_back(shader);
+        // set the texture wrapping/filtering options (on the currently bound texture object)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		updateShaderProgram();
-	}
+        // generate the texture
+        int textureWidth, textureHeight, nrChannels;
+        stbi_set_flip_vertically_on_load(true);
+        unsigned char *data = stbi_load(texturePath.c_str(), &textureWidth, &textureHeight, &nrChannels, 0);
+        if (data) {
+            unsigned int format = GL_RGB;
+            if (hasAlpha) {
+                format = GL_RGBA;
+            }
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, textureHeight, 0, format, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        } else {
+            cout << "Failed to load texture '" << texturePath << "'." << endl;
+        }
 
-	// Update the shader program with the current list of vertexShaders and fragmentShaders
-	void ObjectMesh::updateShaderProgram()
-	{
-		vector<unsigned int> updateVShader = vector<unsigned int>();
-		// Use the default vertex shader if none are present
-		if (this->vertexShader.size() == 0) {
-			updateVShader.push_back(Shader::vertexShader);
-		} else {
-			updateVShader = this->vertexShader;
-		}
+        // free the image memory
+        stbi_image_free(data);
 
-		vector<unsigned int> updateFShader = vector<unsigned int>();
-		// Use the default fragment shader if none are present
-		if (this->fragmentShader.size() == 0) {
-			updateFShader.push_back(Shader::fragmentShader);
-		} else {
-			updateFShader = this->fragmentShader;
-		}
+        this->texture.push_back(texture);
 
-		// Update Program
-		this->shaderProgram = Shader::createProgram(this->vertexShader, this->fragmentShader);
-	}
+        return texture;
+    }
 
-	// Add a value to set a uniform to in the shader program
-	void ObjectMesh::addShaderUniform(Shader::Uniformf * uniform)
-	{
-		uniform->location = glGetUniformLocation(this->shaderProgram, uniform->name.c_str());
-
-		this->uniforms.push_back(uniform);
-	}
+    // set the texture to use on this object
+    void ObjectMesh::addTexture(unsigned int textureID)
+    {
+        texture.push_back(textureID);
+    }
 
 }

@@ -16,37 +16,32 @@ int main() {
 
 	unique_ptr<GameWindow> gameWindow = make_unique<GameWindow>();
 
+    //====================
+    // 1. Load Game Window
+    //====================
+
+    // Create the window
 	if (gameWindow->create(800, 600) != 0) {
 		cout << "Failed to create window.\n";
 	}
 
-	vector<float> rectangleVerts {
-		 0.5f,  0.5f, 0.0f,  // top right
-		 0.5f, -0.5f, 0.0f,  // bottom right
-		-0.5f, -0.5f, 0.0f,  // bottom left
-		-0.5f,  0.5f, 0.0f   // top left 
-	};
-
-	vector<float> triangleVerts {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
-	};
+    //====================
+    // 2. Load Objects
+    //====================
 
     // Create Vertex Data for triangle 1
 	vector<float> triangle1Verts {
-		// position         	// colors
-		-1.0f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,
-		-0.5f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f,
-		 0.0f, -0.5f, 0.0f,     0.0f, 0.0f, 1.0f
+		// position         	// colors           // texture coords
+		-1.0f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // bottom left
+		-0.5f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f,   0.5f, 1.0f, // top
+		 0.0f, -0.5f, 0.0f,     0.0f, 0.0f, 1.0f,   1.0f, 0.0f  // bottom right
 	};
 
+    // Specify vertex attribute data
     vector<vAttribute> v1Attribs = vector<vAttribute>();
-    unsigned int index = 0;
-    vAttribute va1 = vAttribute(index, 3, WarpEngine::vType::FLOAT, false, 6, 0);
-    v1Attribs.push_back(va1);
-    index++;
-    v1Attribs.push_back(vAttribute(index, 3, WarpEngine::vType::FLOAT, false, 6, 3));
+    v1Attribs.push_back(vAttribute(0, 3, WarpEngine::vType::FLOAT, false, 8, 0)); // position attribute
+    v1Attribs.push_back(vAttribute(1, 3, WarpEngine::vType::FLOAT, false, 8, 3)); // color attribute
+    v1Attribs.push_back(vAttribute(2, 2, WarpEngine::vType::FLOAT, false, 8, 6)); // texture attribute
     VertexData t1VertexData = VertexData(&triangle1Verts, &v1Attribs);
 
     // Create triangle 1
@@ -59,43 +54,65 @@ int main() {
 		1.0f, -0.5f, 0.0f
 	};
 	vector<float> rectangleColorVerts {
-		 1.0f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // top right
-		 1.0f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom right
-		 0.0f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  // bottom left
-		 0.0f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f   // top left 
+         // positions        // colors          // texture coords
+		 1.0f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // top right
+		 1.0f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f, // bottom right
+		 0.0f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f, // bottom left
+		 0.0f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f  // top left 
 	};
 	vector<int> indicies{
 		0, 1, 3,
 		1, 2, 3
 	};
     vector<vAttribute> v2Attribs = vector<vAttribute>();
-    index = 0;
-    v2Attribs.push_back(vAttribute(index, 3, WarpEngine::vType::FLOAT, false, 6, 0));
-    index++;
-    v2Attribs.push_back(vAttribute(index, 3, WarpEngine::vType::FLOAT, false, 6, 3));
+    // TODO: Update to the VertexData class to compute the index, stride and offset
+    // Also, possibly refactor into an addAttribute method on VertexData
+    v2Attribs.push_back(vAttribute(0, 3, WarpEngine::vType::FLOAT, false, 8, 0)); // position attribute
+    v2Attribs.push_back(vAttribute(1, 3, WarpEngine::vType::FLOAT, false, 8, 3)); // color attribute
+    v2Attribs.push_back(vAttribute(2, 2, WarpEngine::vType::FLOAT, false, 8, 6)); // texture attribute
     VertexData t2VertexData = VertexData(&rectangleColorVerts, &indicies, &v2Attribs);
 
     // Create triangle 2
 	unique_ptr<ObjectMesh> triangle2 = make_unique<ObjectMesh>(&t2VertexData);
 
+    //====================
+    // 3. Load Shaders
+    //====================
+
+    // Load shaders
+    unsigned int rainbowVert = Shader::loadVertexShader("rainbow.vert");
+    unsigned int rainbowFrag = Shader::loadFragmentShader("rainbow.frag");
+
 	// Load triangle 1 shaders
-	string rainbowVert = glslLoader::load("rainbow.vert");
-	triangle1->addVertexShader(rainbowVert.c_str());
-	string rainbowFrag = glslLoader::load("rainbow.frag");
-	triangle1->addFragmentShader(rainbowFrag.c_str());
+	triangle1->shader.addVertexShader(rainbowVert);
+	triangle1->shader.addFragmentShader(rainbowFrag);
 
 	// Load triangle 2 shaders
-	// string testVert = glslLoader::load("test.vert");
-	triangle2->addVertexShader(rainbowVert.c_str());
-	// string yellowFrag = glslLoader::load("yellow.frag");
-	triangle2->addFragmentShader(rainbowFrag.c_str());
+	triangle2->shader.addVertexShader(rainbowVert);
+	triangle2->shader.addFragmentShader(rainbowFrag);
+
+    //====================
+    // 4. Load Textures
+    //====================
+
+    // Load the texture for triangle 2
+    unsigned int texture1 = triangle2->loadTexture("container.jpg", false);
+    unsigned int texture2 = triangle2->loadTexture("awesomeface.png", true);
+
+    // use the same texture for triangle 1
+    triangle1->addTexture(texture1);
+    triangle1->shader.setInt("texture1", 0);
 
 	// Set uniform for triangle 2 shaders
-	// unique_ptr<Shader::Uniform4f> ourColor = make_unique<Shader::Uniform4f>("ourColor", 0.0f, 0.0f, 0.0f, 1.0f);
-	// triangle2->addShaderUniform(ourColor.get());
+    triangle2->shader.setInt("texture1", 0);
+    triangle2->shader.setInt("texture2", 1);
+
+    //====================
+    // 5. Main Game Loop
+    //====================
 
 	while (!gameWindow->shouldClose()) {
-		// ourColor->y = (sin(getTime()) / 2.0f) + 0.5f;
+        // Update uniform values here
 
 		gameWindow->render();
 	}

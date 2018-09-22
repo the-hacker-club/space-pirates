@@ -6,48 +6,43 @@
 #include <iostream>
 #include <vector>
 
+#include "glslLoader.h"
+
 using namespace std;
 
 namespace WarpEngine {
 	class Shader
 	{
+    private:
+		vector<unsigned int> vertexShader = vector<unsigned int>();
+		vector<unsigned int> fragmentShader = vector<unsigned int>();
+		unsigned int shaderProgram;
+		// vector<Shader::Uniformf*> uniforms = vector<Shader::Uniformf*>();
+		unsigned int _createProgramUsingBasicShaders();
+		static unsigned int _createProgram(vector<unsigned int> vertexShader, vector<unsigned int> fragmentShader);
 	public:
-        // TODO: Remove this class and instead add a setFloat, setBool.. method on the shader
-		class Uniformf {
-		protected:
-			Uniformf(string name);
-		public:
-			string name;
-			int location;
-			virtual void updateUniform() = 0;
-			virtual ~Uniformf() { };
-		};
+		static const char * basicVert;
+		static const char * basicFrag;
+		void updateShaderProgram();
 
-		class Uniform4f: public Uniformf {
-		public:
-			float x;
-			float y;
-			float z;
-			float w;
-			WARPENGINE_API Uniform4f(string name, float x, float y, float z, float w);
-			virtual void updateUniform();
-			virtual ~Uniform4f() { };
-		};
+        WARPENGINE_API Shader();
+        WARPENGINE_API ~Shader();
 
-		// The basicVert shader loaded into gl
-		static unsigned int vertexShader;
-		// The basicFrag shader loaded into gl
-		static unsigned int fragmentShader;
-		WARPENGINE_API static const char * basicVert;
-		WARPENGINE_API static const char * basicFrag;
+		WARPENGINE_API static unsigned int loadVertexShader(const char * vertexSourcePath);
+		WARPENGINE_API static unsigned int loadFragmentShader(const char * vertexSourcePath);
+		static unsigned int loadVertexShaderFromString(string vertexSourcePath);
+		static unsigned int loadFragmentShaderFromString(string vertexSourcePath);
 
-		WARPENGINE_API static unsigned int loadVertexShader(const char * vertexSource);
-		WARPENGINE_API static unsigned int loadFragmentShader(const char * vertexSource);
-		WARPENGINE_API static unsigned int createProgram();
-		WARPENGINE_API static unsigned int createProgram(vector<unsigned int> vertexShader, vector<unsigned int> fragmentShader);
-		WARPENGINE_API static void useProgram(unsigned int shaderProgram);
+		WARPENGINE_API void addVertexShader(const char * vertexShaderPath);
+		WARPENGINE_API void addVertexShader(unsigned int vertexShaderID);
+		WARPENGINE_API void addFragmentShader(const char * fragmentShaderPath);
+		WARPENGINE_API void addFragmentShader(unsigned int vertexShaderID);
 		WARPENGINE_API void useProgram();
-		static unsigned int shaderProgram;
+		WARPENGINE_API void setInt(string name, int v1);
+		WARPENGINE_API void setFloat(string name, float v1);
+		WARPENGINE_API void setFloat(string name, float v1, float v2);
+		WARPENGINE_API void setFloat(string name, float v1, float v2, float v3);
+		WARPENGINE_API void setFloat(string name, float v1, float v2, float v3, float v4);
 	};
 }
 

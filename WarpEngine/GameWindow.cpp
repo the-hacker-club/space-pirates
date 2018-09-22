@@ -76,18 +76,6 @@ namespace WarpEngine
 			return -1;
 		}    
 
-		// ====================
-		// Load shaders
-		// ====================
-
-		// Vertex Shader
-		Shader::loadVertexShader(Shader::basicVert);
-
-		// Fragment Shader
-		Shader::loadFragmentShader(Shader::basicFrag);
-
-		Shader::createProgram();
-
 		return 0;
 	}
 

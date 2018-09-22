@@ -127,6 +127,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="container.jpg" />
+    <None Include="rainbow.frag" />
+    <None Include="rainbow.vert" />
     <None Include="test.vert" />
     <None Include="yellow.frag" />
   </ItemGroup>
