@@ -79,6 +79,9 @@ namespace WarpEngine
 			return -1;
 		}    
 
+        // Enable z-buffering
+        glEnable(GL_DEPTH_TEST);
+
         // Create a default main camera
         mainCamera = make_unique<Camera>();
         mainCamera->translate(0.0f, 0.0f, -3.0f);
@@ -92,7 +95,7 @@ namespace WarpEngine
 
 		// render
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Render objects
 		for (auto &gameObject : gameObjects) {

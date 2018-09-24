@@ -76,36 +76,68 @@ namespace WarpEngine
             glBindTexture(GL_TEXTURE_2D, this->texture[i]);
         }
 
-        // apply transforms
-        this->_transform = mat4(1.0f);
-        // Keep this order for now, but eventuatlly we may need to push translations into a stack
-        // and pop them and apply them in the order they were received.
-
-        // translate
-        this->_transform = glm::translate(this->_transform, this->_translation);
-
-        // rotate
-        this->_transform = glm::rotate(this->_transform, this->_rotation.x_degree, vec3(1.0f, 0.0f, 0.0f));
-        this->_transform = glm::rotate(this->_transform, this->_rotation.y_degree, vec3(0.0f, 1.0f, 0.0f));
-        this->_transform = glm::rotate(this->_transform, this->_rotation.z_degree, vec3(0.0f, 0.0f, 1.0f));
-
-        // scale
-        this->_transform = glm::scale(this->_transform, this->_scale);
-        this->shader.setMatrix("model", this->_transform);
-
-        // we don't need to reset these values (for now) because we only update them once, not each frame
-        this->shader.setMatrix("view", GameWindow::getInstance()->mainCamera->viewMatrix);
-        this->shader.setMatrix("projection", GameWindow::getInstance()->mainCamera->projectionMatrix);
-
-        // reset the model after we've applied it
-        this->_transform = mat4(1.0f);
-
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time
-		if (this->vData->indices != NULL) {
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		} else {
-			glDrawArrays(GL_TRIANGLES, 0, 3);
-		}
+
+
+            glm::vec3 cubePositions[] = {
+                glm::vec3( 0.0f,  0.0f,  0.0f), 
+                glm::vec3( 2.0f,  5.0f, -15.0f), 
+                glm::vec3(-1.5f, -2.2f, -2.5f),  
+                glm::vec3(-3.8f, -2.0f, -12.3f),  
+                glm::vec3( 2.4f, -0.4f, -3.5f),  
+                glm::vec3(-1.7f,  3.0f, -7.5f),  
+                glm::vec3( 1.3f, -2.0f, -2.5f),  
+                glm::vec3( 1.5f,  2.0f, -2.5f), 
+                glm::vec3( 1.5f,  0.2f, -1.5f), 
+                glm::vec3(-1.3f,  1.0f, -1.5f)  
+            };
+        // TODO: add a loop to draw multiple instances of the same mesh for each 'instance'
+        for (unsigned int i=0; i<10; i++) {
+
+            // apply transforms
+            this->_transform = mat4(1.0f);
+            // Keep this order for now, but eventuatlly we may need to push translations into a stack
+            // and pop them and apply them in the order they were received.
+
+            // translate
+            this->_transform = glm::translate(this->_transform, this->_translation);
+
+            // EXTRA FUN CODE
+            this->_transform = glm::translate(this->_transform, cubePositions[i]);
+
+            // EXTRA FUN CODE
+            float angle = 20.0f * i;
+            this->_transform = glm::rotate(this->_transform, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+
+            // TODO: look into how to combine rotations along multiple axis
+            // rotate
+            this->_transform = glm::rotate(this->_transform, this->_rotation.x_degree, vec3(1.0f, 0.0f, 0.0f));
+            this->_transform = glm::rotate(this->_transform, this->_rotation.y_degree, vec3(0.0f, 1.0f, 0.0f));
+            this->_transform = glm::rotate(this->_transform, this->_rotation.z_degree, vec3(0.0f, 0.0f, 1.0f));
+
+            // scale
+            this->_transform = glm::scale(this->_transform, this->_scale);
+            
+
+            // set the model uniform
+            this->shader.setMatrix("model", this->_transform);
+
+            // we don't need to reset these values (for now) because we only update them once, not each frame
+            this->shader.setMatrix("view", GameWindow::getInstance()->mainCamera->viewMatrix);
+            this->shader.setMatrix("projection", GameWindow::getInstance()->mainCamera->projectionMatrix);
+
+            // reset the model after we've applied it
+            this->_transform = mat4(1.0f);
+
+            if (this->vData->indices != NULL) {
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            } else {
+                // TODO: potential to be erroneous if division does not work out to be a whole integer
+                // Need to add a check
+                glDrawArrays(GL_TRIANGLES, 0, (*this->vData->vertices).size() / (*this->vData->vAttributes)[0].getStride());
+            }
+
+        }
 		// glBindVertexArray(0); // no need to unbind it every time
 	}
 

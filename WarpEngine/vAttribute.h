@@ -26,6 +26,7 @@ namespace WarpEngine
     public:
         WARPENGINE_API vAttribute(unsigned int index, int size, WarpEngine::vType type, bool normalized, int stride, int offset);
         WARPENGINE_API ~vAttribute();
+        WARPENGINE_API int getStride();
         WARPENGINE_API void enable();
         WARPENGINE_API void disable();
     };

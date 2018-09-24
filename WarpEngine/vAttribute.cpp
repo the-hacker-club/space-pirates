@@ -30,6 +30,11 @@ namespace WarpEngine
         glEnableVertexAttribArray(index);
     }
 
+    int vAttribute::getStride()
+    {
+        return stride;
+    }
+
     void vAttribute::disable()
     {
 
