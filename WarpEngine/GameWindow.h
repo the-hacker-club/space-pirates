@@ -27,6 +27,8 @@ namespace WarpEngine
 		GLFWwindow * window;
 		void processInput();
 		static vector<ObjectMesh*> gameObjects;
+        // TODO Create Command class to handle input
+        // http://gameprogrammingpatterns.com/command.html
 	public:
         int width;
         int height;

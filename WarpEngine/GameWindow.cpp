@@ -84,7 +84,7 @@ namespace WarpEngine
 
         // Create a default main camera
         mainCamera = make_unique<Camera>();
-        mainCamera->translate(0.0f, 0.0f, -3.0f);
+        mainCamera->translate(0.0f, 0.0f, 3.0f);
 
 		return 0;
 	}
@@ -123,6 +123,26 @@ namespace WarpEngine
 		{
 			glfwSetWindowShouldClose(window, true);
 		}
+
+        if (glfwGetKey(this->window, GLFW_KEY_W) == GLFW_PRESS) {
+            mainCamera->translate(vec3(0, 0, -mainCamera->speed));
+            mainCamera->lookAt(mainCamera->getForwardVector());
+        }
+
+        if (glfwGetKey(this->window, GLFW_KEY_S) == GLFW_PRESS) {
+            mainCamera->translate(vec3(0, 0, mainCamera->speed));
+            mainCamera->lookAt(mainCamera->getForwardVector());
+        }
+
+        if (glfwGetKey(this->window, GLFW_KEY_A) == GLFW_PRESS) {
+            mainCamera->translate(vec3(-mainCamera->speed, 0, 0));
+            mainCamera->lookAt(mainCamera->getForwardVector());
+        }
+
+        if (glfwGetKey(this->window, GLFW_KEY_D) == GLFW_PRESS) {
+            mainCamera->translate(vec3(mainCamera->speed, 0, 0));
+            mainCamera->lookAt(mainCamera->getForwardVector());
+        }
 	}
 
 }

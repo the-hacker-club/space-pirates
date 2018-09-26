@@ -163,7 +163,9 @@ int main() {
     // triangle2->rotate(true, -55.0f, Axis::X_AXIS);
 
 	while (!gameWindow->shouldClose()) {
+        //====================
         // Update Objects
+        //====================
         triangle1->translate(-0.5f, 0.5f, 0.0f);
         float scale = sin((float)getTime());
         // triangle1->scale(scale, scale, 1.0f);
@@ -175,7 +177,16 @@ int main() {
         triangle2->rotate(true, -55.0f, Axis::X_AXIS);
         // triangle2->rotate(-55.0f, Axis::X_AXIS);
 
+        // update camera position
+        // float radius = 10.0f;
+        // float camX = sin(getTime()) * radius;
+        // float camZ = cos(getTime()) * radius;
+        // gameWindow->mainCamera->setPosition(vec3(camX, 0.0f, camZ));
+        cout << gameWindow->mainCamera->getPosition().x << ", " << gameWindow->mainCamera->getPosition().y << ", " << gameWindow->mainCamera->getPosition().z << endl;
+
+        //====================
         // Render Objects
+        //====================
 		gameWindow->render();
 	}
 
