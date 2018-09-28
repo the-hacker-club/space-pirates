@@ -72,6 +72,9 @@ namespace WarpEngine
 		glfwMakeContextCurrent(window);
 		glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+        // Hide the mouse
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 		// glad: load all OpenGL function pointers
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
@@ -107,6 +110,19 @@ namespace WarpEngine
         glfwPollEvents();
 	}
 
+	void _mouseHandler(GLFWwindow * window, double mouseX, double mouseY)
+    {
+        if (GameWindow::getInstance()->mouseHandler != NULL) {
+            GameWindow::getInstance()->mouseHandler(mouseX, mouseY);
+        }
+    }
+
+    void GameWindow::setMouseHandler(void (*mouseHandlerParam)(double mouseX, double mouseY))
+    {
+        mouseHandler = mouseHandlerParam;
+        glfwSetCursorPosCallback(window, &_mouseHandler);
+    }
+
 	void GameWindow::setShouldClose(bool shouldClose)
 	{
 		glfwSetWindowShouldClose(window, shouldClose);
@@ -125,23 +141,23 @@ namespace WarpEngine
 		}
 
         if (glfwGetKey(this->window, GLFW_KEY_W) == GLFW_PRESS) {
-            mainCamera->translate(vec3(0, 0, -mainCamera->speed));
-            mainCamera->lookAt(mainCamera->getForwardVector());
+            mainCamera->translate(mainCamera->getForwardVector() * mainCamera->speed);
+            // mainCamera->lookAt(mainCamera->getForwardVector());
         }
 
         if (glfwGetKey(this->window, GLFW_KEY_S) == GLFW_PRESS) {
-            mainCamera->translate(vec3(0, 0, mainCamera->speed));
-            mainCamera->lookAt(mainCamera->getForwardVector());
+            mainCamera->translate(-mainCamera->getForwardVector() * mainCamera->speed);
+            // mainCamera->lookAt(mainCamera->getForwardVector());
         }
 
         if (glfwGetKey(this->window, GLFW_KEY_A) == GLFW_PRESS) {
-            mainCamera->translate(vec3(-mainCamera->speed, 0, 0));
-            mainCamera->lookAt(mainCamera->getForwardVector());
+            mainCamera->translate(-mainCamera->getRightVector() * mainCamera->speed);
+            // mainCamera->lookAt(mainCamera->getForwardVector());
         }
 
         if (glfwGetKey(this->window, GLFW_KEY_D) == GLFW_PRESS) {
-            mainCamera->translate(vec3(mainCamera->speed, 0, 0));
-            mainCamera->lookAt(mainCamera->getForwardVector());
+            mainCamera->translate(mainCamera->getRightVector() * mainCamera->speed);
+            // mainCamera->lookAt(mainCamera->getForwardVector());
         }
 	}
 

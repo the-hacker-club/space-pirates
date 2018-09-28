@@ -12,6 +12,28 @@ using namespace std;
 using namespace std::chrono;
 using namespace WarpEngine;
 
+double lastX = 400;
+double lastY = 300;
+bool firstMouse;
+
+void mouseHandler(double mouseX, double mouseY)
+{
+    if (!firstMouse) {
+        lastX = mouseX;
+        lastY = mouseY;
+        firstMouse = true;
+    }
+
+    // cout << mouseX << ", " << mouseY << endl;
+    float xoffset = mouseX - lastX;
+    float yoffset = lastY - mouseY; // reversed since y-coordinates range from bottom to top
+
+    lastX = mouseX;
+    lastY = mouseY;
+
+    GameWindow::getInstance()->mainCamera->processMouseMovement(xoffset, yoffset);
+}
+
 int main() {
 
 	unique_ptr<GameWindow> gameWindow = make_unique<GameWindow>();
@@ -159,6 +181,9 @@ int main() {
     // update the main camera
     gameWindow->mainCamera->translate(0.0f, 0.0f, -3.0f);
 
+    // set the mouse handler
+    gameWindow->setMouseHandler(&mouseHandler);
+
     // triangle1->rotate(true, -55.0f, Axis::X_AXIS);
     // triangle2->rotate(true, -55.0f, Axis::X_AXIS);
 
@@ -182,7 +207,7 @@ int main() {
         // float camX = sin(getTime()) * radius;
         // float camZ = cos(getTime()) * radius;
         // gameWindow->mainCamera->setPosition(vec3(camX, 0.0f, camZ));
-        cout << gameWindow->mainCamera->getPosition().x << ", " << gameWindow->mainCamera->getPosition().y << ", " << gameWindow->mainCamera->getPosition().z << endl;
+        // cout << gameWindow->mainCamera->getPosition().x << ", " << gameWindow->mainCamera->getPosition().y << ", " << gameWindow->mainCamera->getPosition().z << endl;
 
         //====================
         // Render Objects

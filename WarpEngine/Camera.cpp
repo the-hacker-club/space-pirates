@@ -12,9 +12,10 @@ namespace WarpEngine
 
     Camera::Camera(float fov, float nearPlaneDistance, float farPlaneDistance, float speed)
     {
+        worldUp = vec3(0.0f, 1.0f, 0.0f);
+
         this->forwardVector = vec3(0.0f, 0.0f, -1.0f);
         this->speed = speed;
-        viewMatrix = mat4(1.0f);
         projectionMatrix = glm::perspective(radians(fov), (float)GameWindow::getInstance()->width / (float)GameWindow::getInstance()->height, nearPlaneDistance, farPlaneDistance);
 
         position = vec3(0.0f, 0.0f, 3.0f);
@@ -38,7 +39,7 @@ namespace WarpEngine
         upVector = cross(directionVector, rightVector);
 
         // update view matrix
-        _updateCamera();
+        //_updateCamera();
     }
 
     Camera::~Camera()
@@ -47,7 +48,17 @@ namespace WarpEngine
 
     vec3 Camera::getForwardVector()
     {
-        return vec3(position.x + forwardVector.x, position.y + forwardVector.y, position.z + forwardVector.z);
+        return forwardVector;
+    }
+
+    vec3 Camera::getRightVector()
+    {
+        return rightVector;
+    }
+
+    mat4 Camera::getViewMatrix()
+    {
+        return glm::lookAt(position, position + forwardVector, upVector);
     }
 
     vec3 Camera::getPosition()
@@ -64,7 +75,7 @@ namespace WarpEngine
     {
         position = position;
 
-        _updateCamera();
+        //_updateCamera();
         // viewMatrix = glm::translate(viewMatrix, translation);
     }
 
@@ -77,19 +88,44 @@ namespace WarpEngine
     {
         position += translation;
 
-        _updateCamera();
+        //_updateCamera();
     }
 
+    // depricated
     void Camera::lookAt(vec3 target)
     {
         this->targetPosition = target;
 
-        _updateCamera();
+        // _updateCamera();
     }
 
-    void Camera::_updateCamera()
+    void Camera::processMouseMovement(float xoffset, float yoffset, bool constrainPitch)
     {
-        viewMatrix = glm::lookAt(position, targetPosition, upVector);
+        // scale by sensitivity
+        float sensitivity = 0.05f;
+        xoffset *= sensitivity;
+        yoffset *= sensitivity;
+
+        yaw += xoffset;
+        pitch += yoffset;
+
+        if (constrainPitch) {
+            if(pitch > 89.0f)
+                pitch =  89.0f;
+            if(pitch < -89.0f)
+                pitch = -89.0f;
+        }
+
+        vec3 front;
+        front.x = cos(radians(pitch)) * cos(radians(yaw));
+        front.y = sin(radians(pitch));
+        front.z = cos(radians(pitch)) * sin(radians(yaw));
+
+        forwardVector = normalize(front);
+        rightVector = normalize(glm::cross(forwardVector, worldUp));
+        upVector = normalize(glm::cross(rightVector, forwardVector));
+
+        // cout << forwardVector.x << ", " << forwardVector.y << ", " << forwardVector.z << endl;
     }
 
 }

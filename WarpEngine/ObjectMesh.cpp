@@ -123,7 +123,7 @@ namespace WarpEngine
             this->shader.setMatrix("model", this->_transform);
 
             // we don't need to reset these values (for now) because we only update them once, not each frame
-            this->shader.setMatrix("view", GameWindow::getInstance()->mainCamera->viewMatrix);
+            this->shader.setMatrix("view", GameWindow::getInstance()->mainCamera->getViewMatrix());
             this->shader.setMatrix("projection", GameWindow::getInstance()->mainCamera->projectionMatrix);
 
             // reset the model after we've applied it

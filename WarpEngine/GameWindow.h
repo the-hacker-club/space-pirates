@@ -20,6 +20,8 @@ namespace WarpEngine
 {
 	class ObjectMesh;
 
+    void _mouseHandler(GLFWwindow * window, double mouseX, double mouseY);
+
 	class GameWindow
 	{
 	private:
@@ -29,11 +31,13 @@ namespace WarpEngine
 		static vector<ObjectMesh*> gameObjects;
         // TODO Create Command class to handle input
         // http://gameprogrammingpatterns.com/command.html
+
 	public:
         int width;
         int height;
         unique_ptr<Camera> mainCamera;
 
+        void (*mouseHandler)(double mouseX, double mouseY);
 		WARPENGINE_API GameWindow();
 		WARPENGINE_API ~GameWindow();
 		WARPENGINE_API static GameWindow * getInstance();
@@ -41,6 +45,7 @@ namespace WarpEngine
 		WARPENGINE_API int init();
 		WARPENGINE_API int create(int width, int height);
 		WARPENGINE_API void render();
+		WARPENGINE_API void setMouseHandler(void (*mouseHandler)(double mouseX, double mouseY));
 		WARPENGINE_API void setShouldClose(bool shouldClose);
 		WARPENGINE_API int shouldClose();
 	};
