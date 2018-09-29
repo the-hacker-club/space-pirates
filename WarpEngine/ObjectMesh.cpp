@@ -30,7 +30,6 @@ namespace WarpEngine
 		}
 
 		// 1. then set the vertex attributes pointers
-
         for (int i=0; i < (int)vData->vAttributes->size(); i++) {
             vData->vAttributes->operator[](i).enable();
         }
@@ -79,20 +78,20 @@ namespace WarpEngine
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time
 
 
-            glm::vec3 cubePositions[] = {
-                glm::vec3( 0.0f,  0.0f,  0.0f), 
-                glm::vec3( 2.0f,  5.0f, -15.0f), 
-                glm::vec3(-1.5f, -2.2f, -2.5f),  
-                glm::vec3(-3.8f, -2.0f, -12.3f),  
-                glm::vec3( 2.4f, -0.4f, -3.5f),  
-                glm::vec3(-1.7f,  3.0f, -7.5f),  
-                glm::vec3( 1.3f, -2.0f, -2.5f),  
-                glm::vec3( 1.5f,  2.0f, -2.5f), 
-                glm::vec3( 1.5f,  0.2f, -1.5f), 
-                glm::vec3(-1.3f,  1.0f, -1.5f)  
-            };
+            // glm::vec3 cubePositions[] = {
+            //     glm::vec3( 0.0f,  0.0f,  0.0f), 
+            //     glm::vec3( 2.0f,  5.0f, -15.0f), 
+            //     glm::vec3(-1.5f, -2.2f, -2.5f),  
+            //     glm::vec3(-3.8f, -2.0f, -12.3f),  
+            //     glm::vec3( 2.4f, -0.4f, -3.5f),  
+            //     glm::vec3(-1.7f,  3.0f, -7.5f),  
+            //     glm::vec3( 1.3f, -2.0f, -2.5f),  
+            //     glm::vec3( 1.5f,  2.0f, -2.5f), 
+            //     glm::vec3( 1.5f,  0.2f, -1.5f), 
+            //     glm::vec3(-1.3f,  1.0f, -1.5f)  
+            // };
         // TODO: add a loop to draw multiple instances of the same mesh for each 'instance'
-        for (unsigned int i=0; i<10; i++) {
+        // for (unsigned int i=0; i<10; i++) {
 
             // apply transforms
             this->_transform = mat4(1.0f);
@@ -103,11 +102,11 @@ namespace WarpEngine
             this->_transform = glm::translate(this->_transform, this->_translation);
 
             // EXTRA FUN CODE
-            this->_transform = glm::translate(this->_transform, cubePositions[i]);
+            // this->_transform = glm::translate(this->_transform, cubePositions[i]);
 
             // EXTRA FUN CODE
-            float angle = 20.0f * i;
-            this->_transform = glm::rotate(this->_transform, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            // float angle = 20.0f * i;
+            // this->_transform = glm::rotate(this->_transform, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 
             // TODO: look into how to combine rotations along multiple axis
             // rotate
@@ -137,7 +136,7 @@ namespace WarpEngine
                 glDrawArrays(GL_TRIANGLES, 0, (*this->vData->vertices).size() / (*this->vData->vAttributes)[0].getStride());
             }
 
-        }
+        // }
 		// glBindVertexArray(0); // no need to unbind it every time
 	}
 
@@ -186,13 +185,13 @@ namespace WarpEngine
         texture.push_back(textureID);
     }
 
-    void ObjectMesh::translate(float x, float y, float z)
+    void ObjectMesh::setPosition(float x, float y, float z)
     {
         // TODO: apply this translation to the previous translation
         this->_translation = vec3(x, y, z);
     }
 
-    void ObjectMesh::translate(vec3 translate)
+    void ObjectMesh::setPosition(vec3 translate)
     {
         // TODO: apply this translation to the previous translation
         this->_translation = translate;

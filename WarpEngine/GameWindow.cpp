@@ -142,22 +142,18 @@ namespace WarpEngine
 
         if (glfwGetKey(this->window, GLFW_KEY_W) == GLFW_PRESS) {
             mainCamera->translate(mainCamera->getForwardVector() * mainCamera->speed);
-            // mainCamera->lookAt(mainCamera->getForwardVector());
         }
 
         if (glfwGetKey(this->window, GLFW_KEY_S) == GLFW_PRESS) {
             mainCamera->translate(-mainCamera->getForwardVector() * mainCamera->speed);
-            // mainCamera->lookAt(mainCamera->getForwardVector());
         }
 
         if (glfwGetKey(this->window, GLFW_KEY_A) == GLFW_PRESS) {
             mainCamera->translate(-mainCamera->getRightVector() * mainCamera->speed);
-            // mainCamera->lookAt(mainCamera->getForwardVector());
         }
 
         if (glfwGetKey(this->window, GLFW_KEY_D) == GLFW_PRESS) {
             mainCamera->translate(mainCamera->getRightVector() * mainCamera->speed);
-            // mainCamera->lookAt(mainCamera->getForwardVector());
         }
 	}
 
