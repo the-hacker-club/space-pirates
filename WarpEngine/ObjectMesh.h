@@ -90,6 +90,8 @@ namespace WarpEngine
 		WARPENGINE_API unsigned int loadTexture(string texturePath, bool hasAlpha);
 		WARPENGINE_API void addTexture(unsigned int textureID);
 		WARPENGINE_API void render();
+		WARPENGINE_API vec3 getWorldCoordinates();
+		WARPENGINE_API vec3 getPosition();
 		WARPENGINE_API void setPosition(vec3 translate);
 		WARPENGINE_API void setPosition(float x, float y, float z);
 		WARPENGINE_API void setRotation(bool radians, float degrees, Axis axis);

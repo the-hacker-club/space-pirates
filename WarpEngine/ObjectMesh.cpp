@@ -77,7 +77,6 @@ namespace WarpEngine
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time
 
-
             // glm::vec3 cubePositions[] = {
             //     glm::vec3( 0.0f,  0.0f,  0.0f), 
             //     glm::vec3( 2.0f,  5.0f, -15.0f), 
@@ -140,6 +139,11 @@ namespace WarpEngine
 		// glBindVertexArray(0); // no need to unbind it every time
 	}
 
+    vec3 ObjectMesh::getWorldCoordinates()
+    {
+        return _transform * vec4(_translation, 1.0f);
+    }
+
     // load a new texture and apply it to this object. Returns the reference id to the texture loaded
     unsigned int ObjectMesh::loadTexture(string texturePath, bool hasAlpha)
     {
@@ -183,6 +187,11 @@ namespace WarpEngine
     void ObjectMesh::addTexture(unsigned int textureID)
     {
         texture.push_back(textureID);
+    }
+
+    vec3 ObjectMesh::getPosition()
+    {
+        return this->_translation;
     }
 
     void ObjectMesh::setPosition(float x, float y, float z)

@@ -45,7 +45,9 @@ namespace WarpEngine {
 		WARPENGINE_API void setInt(string name, int v1);
 		WARPENGINE_API void setFloat(string name, float v1);
 		WARPENGINE_API void setFloat(string name, float v1, float v2);
+		WARPENGINE_API void setFloat(string name, vec3 value);
 		WARPENGINE_API void setFloat(string name, float v1, float v2, float v3);
+		WARPENGINE_API void setFloat(string name, vec4 value);
 		WARPENGINE_API void setFloat(string name, float v1, float v2, float v3, float v4);
 		WARPENGINE_API void setMatrix(string name, mat4 matrix);
 	};

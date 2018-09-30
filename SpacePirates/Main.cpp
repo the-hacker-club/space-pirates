@@ -15,6 +15,7 @@ using namespace WarpEngine;
 double lastX = 400;
 double lastY = 300;
 bool firstMouse;
+vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 void mouseHandler(double mouseX, double mouseY)
 {
@@ -112,20 +113,74 @@ int main() {
         -0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f,  0.0f, 1.0f
     };
 
+    vector<float> cubeVertsWithNormals {
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+        0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+        0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+        0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+        0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+    };
+
+    //========================================
     // Specify vertex attribute data
+    //========================================
     // TODO: Update to the VertexData class to compute the index, stride and offset
     // Also, possibly refactor into an addAttribute method on VertexData
+    // Create  v1 attribtues, including position, color and texture
     vector<vAttribute> v1Attribs = vector<vAttribute>();
     v1Attribs.push_back(vAttribute(0, 3, WarpEngine::vType::FLOAT, false, 8, 0)); // position attribute
     v1Attribs.push_back(vAttribute(1, 3, WarpEngine::vType::FLOAT, false, 8, 3)); // color attribute
     v1Attribs.push_back(vAttribute(2, 2, WarpEngine::vType::FLOAT, false, 8, 6)); // texture attribute
 
-    VertexData cubeVData = VertexData(&cubeVerts, &v1Attribs);
-
     VertexData lampVData = VertexData(&cubeVerts, &v1Attribs);
+
+    // Create v2 attributes, including position and normals
+    vector<vAttribute> v2Attribs = vector<vAttribute>();
+    v2Attribs.push_back(vAttribute(0, 3, WarpEngine::vType::FLOAT, false, 6, 0)); // position attribute
+    v2Attribs.push_back(vAttribute(1, 3, WarpEngine::vType::FLOAT, false, 6, 3)); // normal attribute
+
+    VertexData cubeVData = VertexData(&cubeVertsWithNormals, &v2Attribs);
 
     // Create triangle 1
 	unique_ptr<ObjectMesh> lamp = make_unique<ObjectMesh>(&lampVData);
+    lamp->setPosition(lightPos); // move the lamp over to the left
+    lamp->scale(vec3(0.2f));
 
     // Create triangle 2
 	unique_ptr<ObjectMesh> cube = make_unique<ObjectMesh>(&cubeVData);
@@ -137,15 +192,20 @@ int main() {
     // Load shaders
     unsigned int rainbowVert = Shader::loadVertexShader("rainbow.vert");
     unsigned int rainbowFrag = Shader::loadFragmentShader("rainbow.frag");
-    unsigned int lampFrag = Shader::loadFragmentShader("lamp.frag");
+    unsigned int lightFrag = Shader::loadFragmentShader("light.frag");
+    unsigned int normalVert = Shader::loadVertexShader("normal.vert");
+    unsigned int normalFrag = Shader::loadFragmentShader("normal.frag");
 
 	// Load triangle 1 shaders
 	lamp->shader.addVertexShader(rainbowVert);
-	lamp->shader.addFragmentShader(lampFrag);
+	lamp->shader.addFragmentShader(lightFrag);
+
+	// Set uniform for lamp shaders
+	lamp->shader.setFloat("lightColor", 1.0f, 1.0f, 1.0f, 0.0f);
 
 	// Load triangle 2 shaders
-	cube->shader.addVertexShader(rainbowVert);
-	cube->shader.addFragmentShader(rainbowFrag);
+	cube->shader.addVertexShader(normalVert);
+	cube->shader.addFragmentShader(normalFrag);
 
     //====================
     // 4. Load Textures
@@ -155,18 +215,25 @@ int main() {
     unsigned int texture1 = cube->loadTexture("container.jpg", false);
     unsigned int texture2 = cube->loadTexture("awesomeface.png", true);
 
-    // use the same texture for triangle 1
-    // lamp->addTexture(texture1);
-    // lamp->shader.setInt("texture1", 0);
-    // lamp->shader.setFloat("lightColor", sin(getTime()), sin(getTime()), sin(getTime()), 0.0f);
-
-    // move the lamp over to the left
-    lamp->setPosition(vec3(-1.0f, 0.0f, 0.0f));
-
-	// Set uniform for triangle 2 shaders
+	// Set uniform for cube shaders
     cube->shader.setInt("texture1", 0);
     cube->shader.setInt("texture2", 1);
-    cube->shader.setFloat("lightColor", 1.0f, 1.0f, 1.0f, 0.0f);
+    cube->shader.setFloat("lightColor", 1.0f, 1.0f, 1.0f, 1.0f);
+    // Blank material
+    // cube->shader.setFloat("material.ambient", 1.0f, 1.0f, 1.0f);
+    // cube->shader.setFloat("material.diffuse", 1.0f, 1.0f, 1.0f);
+    // cube->shader.setFloat("material.specular", 0.5f, 0.5f, 0.5f);
+    // cube->shader.setFloat("material.shininess", 32);
+    
+    // Red Plastic
+    cube->shader.setFloat("material.ambient", 0.05f, 0.05f, 0.05f);
+    cube->shader.setFloat("material.diffuse", 0.5f, 0.0f, 0.0f); // color
+    cube->shader.setFloat("material.specular", 0.7f, 0.6f, 0.6f); // red shiny
+    cube->shader.setFloat("material.shininess", 25);
+
+    cube->shader.setFloat("light.ambient", 0.1f, 0.1f, 0.1f);
+    cube->shader.setFloat("light.diffuse", 1.0f, 1.0f, 1.0f); // darken the light a bit to fit the scene
+    cube->shader.setFloat("light.specular", 1.0f, 1.0f, 1.0f);
 
     //====================
     // 5. Main Game Loop
@@ -181,27 +248,39 @@ int main() {
     // lamp->rotate(true, -55.0f, Axis::X_AXIS);
     // cube->rotate(true, -55.0f, Axis::X_AXIS);
 
+    Camera * camera = gameWindow->mainCamera.get();
+
 	while (!gameWindow->shouldClose()) {
         //====================
         // Update Objects
         //====================
-        // lamp->setPosition(-1.0f, 0.5f, 0.0f);
-        float scale = sin((float)getTime());
+        // lamp->setPosition(1.2f, 1.0f, 2.0f);
+        // float scale = sin((float)getTime());
         // lamp->scale(scale, scale, 1.0f);
         // lamp->rotate(true, -55.0f, Axis::X_AXIS);
-        lamp->setRotation(true, -55.0f, Axis::X_AXIS);
+        // lamp->setRotation(true, -55.0f, Axis::X_AXIS);
 
-        cube->setPosition(0.5f, -0.5f, 0.0f);
+        // cube->setPosition(0.5f, -0.5f, 0.0f);
+        // Update the cubes transform
         cube->setRotation(true, (float)getTime() * 10, Axis::Z_AXIS);
-        cube->rotate(true, -55.0f, Axis::X_AXIS);
-        lamp->shader.setFloat("lightColor", sin(getTime()), sin(getTime()), sin(getTime()), 0.0f);
+        // Get light coordinates in the world coordinates
+        // vec3 lightWorldPos = cube->getRelativeCoordinates(lightPos);
+        // cube->shader.setFloat("lightPos", lightWorldPos.x, lightWorldPos.y, lightWorldPos.z);
+        // cube->shader.setFloat("lightPos", lightWorldPos.x, lightWorldPos.y, lightWorldPos.z);
+        // cube->rotate(true, -55.0f, Axis::X_AXIS);
+        // cube->shader.setFloat("lightColor", sin(getTime()), sin(getTime()), sin(getTime()), 0.0f);
         // cube->rotate(-55.0f, Axis::X_AXIS);
 
-        // update camera position
-        // float radius = 10.0f;
-        // float camX = sin(getTime()) * radius;
-        // float camZ = cos(getTime()) * radius;
-        // gameWindow->mainCamera->setPosition(vec3(camX, 0.0f, camZ));
+        // update light position
+        float radius = 2.0f;
+        float lightX = sin(getTime()) * radius;
+        float lightZ = cos(getTime()) * radius;
+        lamp->setPosition(vec3(lightX, 1.0f, lightZ));
+        cout << "lightPos: " << lamp->getPosition().x << ", " << lamp->getPosition().y << ", " << lamp->getPosition().z << endl;
+        cube->shader.setFloat("light.position", lamp->getPosition().x, lamp->getPosition().y, lamp->getPosition().z);
+        vec3 camPos = camera->getPosition();
+        cout << "camPos: " << camPos.x << ", " << camPos.y << ", " << camPos.z << endl;
+        cube->shader.setFloat("viewPos", camPos.x, camPos.y, camPos.z);
         // cout << gameWindow->mainCamera->getPosition().x << ", " << gameWindow->mainCamera->getPosition().y << ", " << gameWindow->mainCamera->getPosition().z << endl;
 
         //====================

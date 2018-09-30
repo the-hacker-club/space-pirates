@@ -66,6 +66,11 @@ namespace WarpEngine
         return this->position;
     }
 
+    vec3 Camera::getWorldCoordinates()
+    {
+        return getViewMatrix() * vec4(this->position, 1.0f);
+    }
+
     void Camera::setPosition(float x, float y, float z)
     {
         translate(vec3(x, y, z));

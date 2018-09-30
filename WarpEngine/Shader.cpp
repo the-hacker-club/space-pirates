@@ -233,6 +233,11 @@ namespace WarpEngine
 		glUniform2f(glGetUniformLocation(this->shaderProgram, name.c_str()), v1, v2);
 	}
 
+	void Shader::setFloat(string name, vec3 value)
+    {
+        this->setFloat(name, value.x, value.y, value.z);
+    }
+
 	// Add a value to set a uniform to in the shader program
 	void Shader::setFloat(string name, float v1, float v2, float v3)
 	{
@@ -240,6 +245,10 @@ namespace WarpEngine
 		glUniform3f(glGetUniformLocation(this->shaderProgram, name.c_str()), v1, v2, v3);
 	}
 
+	void Shader::setFloat(string name, vec4 value)
+    {
+        this->setFloat(name, value.x, value.y, value.z, value.w);
+    }
 	// Add a value to set a uniform to in the shader program
 	void Shader::setFloat(string name, float v1, float v2, float v3, float v4)
 	{

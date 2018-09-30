@@ -27,6 +27,7 @@ namespace WarpEngine
         mat4 projectionMatrix;
         WARPENGINE_API Camera();
         WARPENGINE_API Camera(float fov, float nearPlaneDistance, float farPlaneDistance, float cameraSpeed);
+        WARPENGINE_API vec3 getWorldCoordinates();
         WARPENGINE_API vec3 getPosition();
         WARPENGINE_API vec3 getForwardVector();
         WARPENGINE_API vec3 getRightVector();
