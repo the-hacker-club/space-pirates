@@ -226,7 +226,7 @@ int main() {
     // cube->shader.setFloat("material.shininess", 32);
     
     // Red Plastic
-    cube->shader.setFloat("material.ambient", 0.05f, 0.05f, 0.05f);
+    cube->shader.setFloat("material.ambient", 0.5f, 0.5f, 0.5f);
     cube->shader.setFloat("material.diffuse", 0.5f, 0.0f, 0.0f); // color
     cube->shader.setFloat("material.specular", 0.7f, 0.6f, 0.6f); // red shiny
     cube->shader.setFloat("material.shininess", 25);
@@ -262,7 +262,7 @@ int main() {
 
         // cube->setPosition(0.5f, -0.5f, 0.0f);
         // Update the cubes transform
-        cube->setRotation(true, (float)getTime() * 10, Axis::Z_AXIS);
+        // cube->setRotation(true, (float)getTime() * 10, Axis::Z_AXIS);
         // Get light coordinates in the world coordinates
         // vec3 lightWorldPos = cube->getRelativeCoordinates(lightPos);
         // cube->shader.setFloat("lightPos", lightWorldPos.x, lightWorldPos.y, lightWorldPos.z);
@@ -272,16 +272,30 @@ int main() {
         // cube->rotate(-55.0f, Axis::X_AXIS);
 
         // update light position
-        float radius = 2.0f;
-        float lightX = sin(getTime()) * radius;
-        float lightZ = cos(getTime()) * radius;
-        lamp->setPosition(vec3(lightX, 1.0f, lightZ));
-        cout << "lightPos: " << lamp->getPosition().x << ", " << lamp->getPosition().y << ", " << lamp->getPosition().z << endl;
+        // float radius = 2.0f;
+        // float lightX = sin(getTime()) * radius;
+        // float lightZ = cos(getTime()) * radius;
+        // lamp->setPosition(vec3(lightX, 1.0f, lightZ));
+        // cout << "lightPos: " << lamp->getPosition().x << ", " << lamp->getPosition().y << ", " << lamp->getPosition().z << endl;
         cube->shader.setFloat("light.position", lamp->getPosition().x, lamp->getPosition().y, lamp->getPosition().z);
         vec3 camPos = camera->getPosition();
-        cout << "camPos: " << camPos.x << ", " << camPos.y << ", " << camPos.z << endl;
+        // cout << "camPos: " << camPos.x << ", " << camPos.y << ", " << camPos.z << endl;
         cube->shader.setFloat("viewPos", camPos.x, camPos.y, camPos.z);
         // cout << gameWindow->mainCamera->getPosition().x << ", " << gameWindow->mainCamera->getPosition().y << ", " << gameWindow->mainCamera->getPosition().z << endl;
+
+        vec3 lightColor;
+        lightColor.x = sin(getTime() * 2.0f);
+        lightColor.y = sin(getTime() * 0.7f);
+        lightColor.z = sin(getTime() * 1.3f);
+
+        vec3 diffuseColor = lightColor * vec3(0.5); // decrease the influence
+        vec3 ambientColor = diffuseColor * vec3(0.8); // low influence
+
+        // Update light
+        lamp->shader.setFloat("lightColor", diffuseColor.x, diffuseColor.y, diffuseColor.z, 1.0f);
+        // lamp->shader.setFloat("lightColor", 1.0f, 1.0f, 1.0f, 0.0f);
+        cube->shader.setFloat("light.ambient", ambientColor);
+        cube->shader.setFloat("light.diffuse", diffuseColor);
 
         //====================
         // Render Objects
