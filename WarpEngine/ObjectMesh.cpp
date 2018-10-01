@@ -6,6 +6,8 @@ using namespace std;
 
 namespace WarpEngine
 {
+    int ObjectMesh::textureCount = 0;
+
 	ObjectMesh::ObjectMesh(VertexData * vData): vData(vData)
 	{
 		// TODO: May need to refactor this out into a static
@@ -144,8 +146,9 @@ namespace WarpEngine
         return _transform * vec4(_translation, 1.0f);
     }
 
-    // load a new texture and apply it to this object. Returns the reference id to the texture loaded
-    unsigned int ObjectMesh::loadTexture(string texturePath, bool hasAlpha)
+    // load a new texture and apply it to this object. Returns the index of this texture.
+    // e.g. The number that this texture was loaded out of all textures loaded
+    int ObjectMesh::loadTexture(string texturePath, bool hasAlpha)
     {
         unsigned int texture;
         // load the texture
@@ -180,7 +183,8 @@ namespace WarpEngine
 
         this->texture.push_back(texture);
 
-        return texture;
+        // return the index of this texture
+        return this->textureCount++;
     }
 
     // set the texture to use on this object

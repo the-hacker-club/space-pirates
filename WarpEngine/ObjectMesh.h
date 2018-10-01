@@ -78,6 +78,7 @@ namespace WarpEngine
 		unsigned int VBO;
 		unsigned int VAO;
 		unsigned int EBO;
+        static int textureCount;
         vector<unsigned int> texture = vector<unsigned int>();
         mat4 _transform = mat4(1.0f);
         vec3 _translation = vec3(0.0f, 0.0f, 0.0f);
@@ -87,7 +88,7 @@ namespace WarpEngine
         Shader shader;
 		WARPENGINE_API ObjectMesh(VertexData * vData);
 		WARPENGINE_API ~ObjectMesh();
-		WARPENGINE_API unsigned int loadTexture(string texturePath, bool hasAlpha);
+		WARPENGINE_API int loadTexture(string texturePath, bool hasAlpha);
 		WARPENGINE_API void addTexture(unsigned int textureID);
 		WARPENGINE_API void render();
 		WARPENGINE_API vec3 getWorldCoordinates();
