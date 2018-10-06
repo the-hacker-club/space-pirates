@@ -216,6 +216,7 @@ int main() {
     // Load the texture for triangle 2
     int containerTex = cube->loadTexture("container2.png", true);
     int specularTex = cube->loadTexture("container2_specular.png", true);
+    int emissionTex = cube->loadTexture("matrix.jpg", false);
 
 	// Set uniform for cube shaders
     cube->shader.setInt("texture1", 0);
@@ -224,6 +225,7 @@ int main() {
     cout << "containerTex: " << containerTex << endl;
     cube->shader.setInt("material.diffuse", containerTex);
     cube->shader.setInt("material.specular", specularTex);
+    cube->shader.setInt("material.emission", emissionTex);
     // Blank material
     // cube->shader.setFloat("material.ambient", 1.0f, 1.0f, 1.0f);
     // cube->shader.setFloat("material.diffuse", 1.0f, 1.0f, 1.0f);
@@ -287,6 +289,8 @@ int main() {
         // cout << "camPos: " << camPos.x << ", " << camPos.y << ", " << camPos.z << endl;
         cube->shader.setFloat("viewPos", camPos.x, camPos.y, camPos.z);
         // cout << gameWindow->mainCamera->getPosition().x << ", " << gameWindow->mainCamera->getPosition().y << ", " << gameWindow->mainCamera->getPosition().z << endl;
+
+        cube->shader.setFloat("time", getTime());
 
         vec3 lightColor;
         lightColor.x = sin(getTime() * 2.0f);

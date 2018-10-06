@@ -3,7 +3,8 @@ out vec4 FragColor;
 
 struct Material {
     sampler2D diffuse;
-    sampler2D specular;    
+    sampler2D specular;
+    sampler2D emission;
     float shininess;
 }; 
 
@@ -22,6 +23,7 @@ in vec3 Normal;
 uniform vec3 viewPos;
 uniform Material material;
 uniform Light light;
+uniform float time;
 
 void main()
 {
@@ -43,7 +45,15 @@ void main()
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     vec3 specular = light.specular * (spec * textSpec);  
+
+    vec3 textEmit;
+
+    if (textSpec != 0.0) {
+        textEmit = vec3(0.0);
+    } else {
+        textEmit = texture(material.emission, vec2(TexCoords.x, TexCoords.y + time)).rgb;
+    }
         
-    vec3 result = ambient + diffuse + specular;
+    vec3 result = ambient + diffuse + specular + textEmit;
     FragColor = vec4(result, 1.0);
 } 
