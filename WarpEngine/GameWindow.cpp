@@ -117,10 +117,23 @@ namespace WarpEngine
         }
     }
 
+	void _mouseScrollHandler(GLFWwindow * window, double offsetX, double offsetY)
+    {
+        if (GameWindow::getInstance()->mouseScrollHandler != NULL) {
+            GameWindow::getInstance()->mouseScrollHandler(offsetX, offsetY);
+        }
+    }
+
     void GameWindow::setMouseHandler(void (*mouseHandlerParam)(double mouseX, double mouseY))
     {
         mouseHandler = mouseHandlerParam;
         glfwSetCursorPosCallback(window, &_mouseHandler);
+    }
+
+    void GameWindow::setMouseScrollHandler(void (*mouseScrollHandlerParam)(double offsetX, double offsetY))
+    {
+        mouseScrollHandler = mouseScrollHandlerParam;
+        glfwSetScrollCallback(window, &_mouseScrollHandler);
     }
 
 	void GameWindow::setShouldClose(bool shouldClose)

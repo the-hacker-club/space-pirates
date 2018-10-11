@@ -79,20 +79,21 @@ namespace WarpEngine
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time
 
-            // glm::vec3 cubePositions[] = {
-            //     glm::vec3( 0.0f,  0.0f,  0.0f), 
-            //     glm::vec3( 2.0f,  5.0f, -15.0f), 
-            //     glm::vec3(-1.5f, -2.2f, -2.5f),  
-            //     glm::vec3(-3.8f, -2.0f, -12.3f),  
-            //     glm::vec3( 2.4f, -0.4f, -3.5f),  
-            //     glm::vec3(-1.7f,  3.0f, -7.5f),  
-            //     glm::vec3( 1.3f, -2.0f, -2.5f),  
-            //     glm::vec3( 1.5f,  2.0f, -2.5f), 
-            //     glm::vec3( 1.5f,  0.2f, -1.5f), 
-            //     glm::vec3(-1.3f,  1.0f, -1.5f)  
-            // };
+        // TODO: have some propety determine wheter we need to draw multiple instances of this mesh
+            glm::vec3 cubePositions[] = {
+                glm::vec3( 0.0f,  0.0f,  0.0f), 
+                glm::vec3( 2.0f,  5.0f, -15.0f), 
+                glm::vec3(-1.5f, -2.2f, -2.5f),  
+                glm::vec3(-3.8f, -2.0f, -12.3f),  
+                glm::vec3( 2.4f, -0.4f, -3.5f),  
+                glm::vec3(-1.7f,  3.0f, -7.5f),  
+                glm::vec3( 1.3f, -2.0f, -2.5f),  
+                glm::vec3( 1.5f,  2.0f, -2.5f), 
+                glm::vec3( 1.5f,  0.2f, -1.5f), 
+                glm::vec3(-1.3f,  1.0f, -1.5f)  
+            };
         // TODO: add a loop to draw multiple instances of the same mesh for each 'instance'
-        // for (unsigned int i=0; i<10; i++) {
+        for (unsigned int i=0; i<10; i++) {
 
             // apply transforms
             this->_transform = mat4(1.0f);
@@ -103,11 +104,11 @@ namespace WarpEngine
             this->_transform = glm::translate(this->_transform, this->_translation);
 
             // EXTRA FUN CODE
-            // this->_transform = glm::translate(this->_transform, cubePositions[i]);
+            this->_transform = glm::translate(this->_transform, cubePositions[i]);
 
             // EXTRA FUN CODE
-            // float angle = 20.0f * i;
-            // this->_transform = glm::rotate(this->_transform, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            float angle = 20.0f * i;
+            this->_transform = glm::rotate(this->_transform, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 
             // TODO: look into how to combine rotations along multiple axis
             // rotate
@@ -124,7 +125,7 @@ namespace WarpEngine
 
             // we don't need to reset these values (for now) because we only update them once, not each frame
             this->shader.setMatrix("view", GameWindow::getInstance()->mainCamera->getViewMatrix());
-            this->shader.setMatrix("projection", GameWindow::getInstance()->mainCamera->projectionMatrix);
+            this->shader.setMatrix("projection", GameWindow::getInstance()->mainCamera->getProjectionMatrix());
 
             // reset the model after we've applied it
             this->_transform = mat4(1.0f);
@@ -137,7 +138,7 @@ namespace WarpEngine
                 glDrawArrays(GL_TRIANGLES, 0, (*this->vData->vertices).size() / (*this->vData->vAttributes)[0].getStride());
             }
 
-        // }
+        }
 		// glBindVertexArray(0); // no need to unbind it every time
 	}
 

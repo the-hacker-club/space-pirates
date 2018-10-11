@@ -8,8 +8,8 @@ struct Material {
     float shininess;
 }; 
 
-struct Light {
-    vec3 position;
+struct DirectionalLight {
+    vec3 direction;
 
     vec3 ambient;
     vec3 diffuse;
@@ -22,7 +22,7 @@ in vec3 Normal;
   
 uniform vec3 viewPos;
 uniform Material material;
-uniform Light light;
+uniform DirectionalLight dlight;
 uniform float time;
 
 void main()
@@ -32,19 +32,20 @@ void main()
     vec3 textSpec = texture(material.specular, TexCoords).rgb;
 
     // ambient
-    vec3 ambient = light.ambient * textDiff;
+    vec3 ambient = dlight.ambient * textDiff;
   	
     // diffuse 
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(light.position - FragPos);
+    //vec3 lightDir = normalize(light.position - FragPos);
+    vec3 lightDir = normalize(dlight.direction);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = light.diffuse * diff * textDiff;
+    vec3 diffuse = dlight.diffuse * diff * textDiff;
     
     // specular
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = light.specular * (spec * textSpec);  
+    vec3 specular = dlight.specular * (spec * textSpec);  
 
     vec3 textEmit;
 

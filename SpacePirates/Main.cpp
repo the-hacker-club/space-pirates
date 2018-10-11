@@ -35,6 +35,11 @@ void mouseHandler(double mouseX, double mouseY)
     GameWindow::getInstance()->mainCamera->processMouseMovement(xoffset, yoffset);
 }
 
+void scrollHandler(double xoffset, double yoffset)
+{
+    GameWindow::getInstance()->mainCamera->processMouseScroll(xoffset, yoffset);
+}
+
 int main() {
 
 	unique_ptr<GameWindow> gameWindow = make_unique<GameWindow>();
@@ -238,9 +243,9 @@ int main() {
     cube->shader.setFloat("material.specular", 0.7f, 0.6f, 0.6f); // red shiny
     cube->shader.setFloat("material.shininess", 25);
 
-    cube->shader.setFloat("light.ambient", 0.2f, 0.2f, 0.2f);
-    cube->shader.setFloat("light.diffuse", 1.0f, 1.0f, 1.0f); // darken the light a bit to fit the scene
-    cube->shader.setFloat("light.specular", 1.0f, 1.0f, 1.0f);
+    cube->shader.setFloat("dlight.ambient", 0.2f, 0.2f, 0.2f);
+    cube->shader.setFloat("dlight.diffuse", 1.0f, 1.0f, 1.0f); // darken the light a bit to fit the scene
+    cube->shader.setFloat("dlight.specular", 1.0f, 1.0f, 1.0f);
 
     //====================
     // 5. Main Game Loop
@@ -249,8 +254,9 @@ int main() {
     // update the main camera
     gameWindow->mainCamera->translate(0.0f, 0.0f, -3.0f);
 
-    // set the mouse handler
+    // set the mouse handlers
     gameWindow->setMouseHandler(&mouseHandler);
+    gameWindow->setMouseScrollHandler(&scrollHandler);
 
     // lamp->rotate(true, -55.0f, Axis::X_AXIS);
     // cube->rotate(true, -55.0f, Axis::X_AXIS);
@@ -284,7 +290,7 @@ int main() {
         float lightZ = cos(getTime()) * radius;
         lamp->setPosition(vec3(lightX, 1.0f, lightZ));
         // cout << "lightPos: " << lamp->getPosition().x << ", " << lamp->getPosition().y << ", " << lamp->getPosition().z << endl;
-        cube->shader.setFloat("light.position", lamp->getPosition().x, lamp->getPosition().y, lamp->getPosition().z);
+        cube->shader.setFloat("dlight.direction", lamp->getPosition().x, lamp->getPosition().y, lamp->getPosition().z);
         vec3 camPos = camera->getPosition();
         // cout << "camPos: " << camPos.x << ", " << camPos.y << ", " << camPos.z << endl;
         cube->shader.setFloat("viewPos", camPos.x, camPos.y, camPos.z);

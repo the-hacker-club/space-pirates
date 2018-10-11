@@ -14,9 +14,11 @@ namespace WarpEngine
     {
         worldUp = vec3(0.0f, 1.0f, 0.0f);
 
+        this->nearPlaneDistance = nearPlaneDistance;
+        this->farPlaneDistance = farPlaneDistance;
         this->forwardVector = vec3(0.0f, 0.0f, -1.0f);
         this->speed = speed;
-        projectionMatrix = glm::perspective(radians(fov), (float)GameWindow::getInstance()->width / (float)GameWindow::getInstance()->height, nearPlaneDistance, farPlaneDistance);
+        this->zoom = fov;
 
         position = vec3(0.0f, 0.0f, 3.0f);
         targetPosition = vec3(0.0f, 0.0f, 2.0f);
@@ -59,6 +61,11 @@ namespace WarpEngine
     mat4 Camera::getViewMatrix()
     {
         return glm::lookAt(position, position + forwardVector, upVector);
+    }
+
+    mat4 Camera::getProjectionMatrix()
+    {
+        return glm::perspective(radians(zoom), (float)GameWindow::getInstance()->width / (float)GameWindow::getInstance()->height, nearPlaneDistance, farPlaneDistance);
     }
 
     vec3 Camera::getPosition()
@@ -131,6 +138,16 @@ namespace WarpEngine
         upVector = normalize(glm::cross(rightVector, forwardVector));
 
         // cout << forwardVector.x << ", " << forwardVector.y << ", " << forwardVector.z << endl;
+    }
+
+    void Camera::processMouseScroll(float xoffset, float yoffset)
+    {
+        if (zoom >= 1.0f && zoom <= 45.0f)
+            zoom -= yoffset;
+        if (zoom <= 1.0f)
+            zoom = 1.0f;
+        if (zoom >= 45.0f)
+            zoom = 45.0f;
     }
 
 }
