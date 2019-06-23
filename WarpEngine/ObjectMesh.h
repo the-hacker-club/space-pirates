@@ -73,7 +73,7 @@ namespace WarpEngine
             GL_TEXTURE14,
             GL_TEXTURE15
         };
-		bool wireframeMode;
+		bool wireframeMode = 0;
         VertexData * vData;
 		unsigned int VBO;
 		unsigned int VAO;
