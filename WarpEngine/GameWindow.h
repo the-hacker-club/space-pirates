@@ -4,8 +4,8 @@
 
 #include <iostream>
 #include <vector>
-#include <glad\glad.h>
-#include <GLFW\glfw3.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -40,16 +40,16 @@ namespace WarpEngine
 
         void (*mouseHandler)(double mouseX, double mouseY);
         void (*mouseScrollHandler)(double offsetX, double offsetY);
-		WARPENGINE_API GameWindow();
-		WARPENGINE_API ~GameWindow();
-		WARPENGINE_API static GameWindow * getInstance();
+		GameWindow();
+		~GameWindow();
+		static GameWindow * getInstance();
 		static void add(ObjectMesh * gameObject);
-		WARPENGINE_API int init();
-		WARPENGINE_API int create(int width, int height);
-		WARPENGINE_API void render();
-		WARPENGINE_API void setMouseHandler(void (*mouseHandler)(double mouseX, double mouseY));
-		WARPENGINE_API void setMouseScrollHandler(void (*mouseHandler)(double mouseX, double mouseY));
-		WARPENGINE_API void setShouldClose(bool shouldClose);
-		WARPENGINE_API int shouldClose();
+		int init();
+		int create(int width, int height);
+		void render();
+		void setMouseHandler(void (*mouseHandler)(double mouseX, double mouseY));
+		void setMouseScrollHandler(void (*mouseHandler)(double mouseX, double mouseY));
+		void setShouldClose(bool shouldClose);
+		int shouldClose();
 	};
 }

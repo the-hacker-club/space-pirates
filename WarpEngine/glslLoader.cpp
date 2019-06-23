@@ -3,7 +3,7 @@
 namespace WarpEngine
 {
 
-	WARPENGINE_API string glslLoader::load(string fileName)
+	string glslLoader::load(string fileName)
 	{
 		ifstream in(fileName);
 

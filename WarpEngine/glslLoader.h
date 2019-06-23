@@ -12,7 +12,7 @@ namespace WarpEngine
 	class glslLoader
 	{
 	public:
-		WARPENGINE_API static string load(string fileName);
+		static string load(string fileName);
 	};
 
 }

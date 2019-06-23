@@ -2,7 +2,7 @@
 
 #include "_warpEngine.h"
 
-#include <glad\glad.h>
+#include <glad/glad.h>
 #include <vector>
 #include <memory>
 #include <glm/glm.hpp>
@@ -86,21 +86,21 @@ namespace WarpEngine
         Rotation _rotation = Rotation();
 	public:
         Shader shader;
-		WARPENGINE_API ObjectMesh(VertexData * vData);
-		WARPENGINE_API ~ObjectMesh();
-		WARPENGINE_API int loadTexture(string texturePath, bool hasAlpha);
-		WARPENGINE_API void addTexture(unsigned int textureID);
-		WARPENGINE_API void render();
-		WARPENGINE_API vec3 getWorldCoordinates();
-		WARPENGINE_API vec3 getPosition();
-		WARPENGINE_API void setPosition(vec3 translate);
-		WARPENGINE_API void setPosition(float x, float y, float z);
-		WARPENGINE_API void setRotation(bool radians, float degrees, Axis axis);
-		WARPENGINE_API void setRotation(float degrees, Axis axis);
-		WARPENGINE_API void rotate(bool radians, float degrees, Axis axis);
-		WARPENGINE_API void rotate(float degrees, Axis axis);
-		WARPENGINE_API void scale(vec3 scale);
-		WARPENGINE_API void scale(float x, float y, float z);
+		ObjectMesh(VertexData * vData);
+		~ObjectMesh();
+		int loadTexture(string texturePath, bool hasAlpha);
+		void addTexture(unsigned int textureID);
+		void render();
+		vec3 getWorldCoordinates();
+		vec3 getPosition();
+		void setPosition(vec3 translate);
+		void setPosition(float x, float y, float z);
+		void setRotation(bool radians, float degrees, Axis axis);
+		void setRotation(float degrees, Axis axis);
+		void rotate(bool radians, float degrees, Axis axis);
+		void rotate(float degrees, Axis axis);
+		void scale(vec3 scale);
+		void scale(float x, float y, float z);
 	};
 
 }

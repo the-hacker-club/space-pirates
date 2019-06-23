@@ -16,8 +16,8 @@ namespace WarpEngine
 		vector<int> * indices;
         vector<vAttribute> * vAttributes;
 
-        WARPENGINE_API VertexData(vector<float> * vertices, vector<vAttribute> * vAttributes);
-        WARPENGINE_API VertexData(vector<float> * vertices, vector<int> * indices, vector<vAttribute> * vAttributes);
-        WARPENGINE_API ~VertexData();
+        VertexData(vector<float> * vertices, vector<vAttribute> * vAttributes);
+        VertexData(vector<float> * vertices, vector<int> * indices, vector<vAttribute> * vAttributes);
+        ~VertexData();
     };
 }
