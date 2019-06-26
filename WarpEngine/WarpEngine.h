@@ -12,6 +12,7 @@
 #include "ObjectMesh.h"
 #include "VertexData.h"
 #include "vAttribute.h"
+#include "Level.h"
 
 // Utility
 #include "glslLoader.h"
