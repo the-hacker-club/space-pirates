@@ -3,4 +3,10 @@
 namespace WarpEngine
 {
 
+    Level::Level() {
+    }
+
+    Level::~Level() {
+    }
+
 }

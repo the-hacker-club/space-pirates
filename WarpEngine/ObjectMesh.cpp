@@ -22,7 +22,7 @@ namespace WarpEngine
 		glBindVertexArray(VAO);
 		// 0. Copy our vertices array in a buffer for OpenGL to use
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		unsigned int size = this->vData->vertices->size() * sizeof(float);
+		unsigned int size = (*this->vData->vertices).size() * sizeof(float);
 		glBufferData(GL_ARRAY_BUFFER, size, this->vData->vertices->data(), GL_STATIC_DRAW);
 
 		if (this->vData->indices != NULL) {

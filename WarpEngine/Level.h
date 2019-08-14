@@ -9,10 +9,13 @@ namespace WarpEngine
 	class Level
 	{
 	private:
-        Level();
-        virtual ~Level();
 
 	public:
-        virtual void initialize();
+        Level();
+        // TODO: Look into use of virtual destructor?
+        // virtual ~Level();
+        virtual ~Level();
+        virtual void load() = 0;
+        virtual void update() = 0;
 	};
 }
