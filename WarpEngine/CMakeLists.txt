@@ -8,6 +8,8 @@ add_library(
     glad.c
     glslLoader.h
     glslLoader.cpp
+    Level.h
+    Level.cpp
     ObjectMesh.h
     ObjectMesh.cpp
     Shader.h

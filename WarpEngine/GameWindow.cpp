@@ -5,7 +5,7 @@
 namespace WarpEngine
 {
 
-	GameWindow * GameWindow::_instance;
+	unique_ptr<GameWindow> GameWindow::_instance;
 	vector<ObjectMesh*> GameWindow::gameObjects;
 
 	// glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -16,15 +16,6 @@ namespace WarpEngine
 		glViewport(0, 0, width, height);
 	}
 
-	GameWindow::GameWindow()
-	{
-		if (_instance == NULL) {
-			init();
-			_instance = this;
-		}
-	}
-
-
 	GameWindow::~GameWindow()
 	{
 		// glfw: terminate, clearing all previously allocated GLFW resources.
@@ -33,7 +24,11 @@ namespace WarpEngine
 
 	GameWindow * GameWindow::getInstance()
 	{
-		return _instance;
+		if (_instance == NULL) {
+            _instance = make_unique<GameWindow>();
+			_instance.get()->init();
+		}
+		return _instance.get();
 	}
 
 	void GameWindow::add(ObjectMesh * gameObject)
@@ -80,7 +75,7 @@ namespace WarpEngine
 		{
 			std::cout << "Failed to initialize GLAD" << std::endl;
 			return -1;
-		}    
+		}
 
         // Enable z-buffering
         glEnable(GL_DEPTH_TEST);

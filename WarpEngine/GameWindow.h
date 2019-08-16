@@ -26,7 +26,7 @@ namespace WarpEngine
 	class GameWindow
 	{
 	private:
-		static GameWindow * _instance;
+		static unique_ptr<GameWindow> _instance;
 		GLFWwindow * window;
 		void processInput();
 		static vector<ObjectMesh*> gameObjects;
@@ -40,7 +40,6 @@ namespace WarpEngine
 
         void (*mouseHandler)(double mouseX, double mouseY);
         void (*mouseScrollHandler)(double offsetX, double offsetY);
-		GameWindow();
 		~GameWindow();
 		static GameWindow * getInstance();
 		static void add(ObjectMesh * gameObject);
