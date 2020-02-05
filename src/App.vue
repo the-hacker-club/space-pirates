@@ -2,6 +2,7 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld :msg="greeting"/>
+    <p>Player attributes: {{ playerstats }} </p>
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import HelloWorld from './components/HelloWorld.vue'
 
 // models
 import msg from './models/Message.js'
+import {Character} from './models/Player.js'
 
 export default {
   name: 'app',
@@ -19,11 +21,21 @@ export default {
   },
   data () {
     return {
-      greeting: ''
+      greeting: '',
+      playerstats: ''
     }
   },
   created () {
     this.getMsg()
+    console.log('oh my!');
+
+    var player = new Character("Joe");
+    //player.attributes.set_STR(10);
+
+    this.playerstats = player.attributes.get_STR();
+
+    console.log('created new character:');
+    console.log(player);
   },
   methods: {
     getMsg () {

@@ -2,8 +2,8 @@ var express = require('express')
 var router = express.Router()
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  let msg = { msg: "Welcome to Vue.js App!" }
+router.get('/greeting', function (req, res, next) {
+  let msg = { msg: "Space Pirates!" }
   res.json(msg).end()
 })
 

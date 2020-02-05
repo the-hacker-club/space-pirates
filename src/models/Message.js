@@ -5,7 +5,7 @@ export default {
   getInitMsg () {
     console.log(tag, 'getInitMsg()')
     if (window.fetch) {
-      return fetch('/message', {
+      return fetch('/api/greeting', {
         method: 'get',
         headers: { 'Content-Type': 'application/json' }
       })
