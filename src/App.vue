@@ -3,6 +3,20 @@
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld :msg="greeting"/>
     <p>Player attributes: {{ playerstats }} </p>
+
+    <div class="Flex-Container">
+      <button type="button">Hull: {{ ShipHull }}</button>
+      <button type="button">Armor: {{ ShipArmor }}</button>
+      <button type="button">Shields: {{ ShipShields }}</button>
+      <button type="button">Scrap: {{ ShipScrap }}</button>
+    </div>
+    <div class="Flex-Container">
+      <button type="button">Supplies: {{ ShipSupply }}</button>
+      <button type="button">Items: {{ ShipItems }}</button>
+      <button type="button">Fuel: {{ ShipFuel }}</button>
+      <button type="button">Hardpoints: {{ ShipHardPoints }}</button>
+    </div>
+
   </div>
 </template>
 
@@ -13,6 +27,7 @@ import HelloWorld from './components/HelloWorld.vue'
 // models
 import msg from './models/Message.js'
 import {Character} from './models/Player.js'
+import {ShipStats} from './models/Ship.js'
 
 export default {
   name: 'app',
@@ -22,7 +37,15 @@ export default {
   data () {
     return {
       greeting: '',
-      playerstats: ''
+      playerstats: '',
+      ShipHull: '',
+      ShipArmor: '',
+      ShipShields: '',
+      ShipScrap: '',
+      ShipSupply: '',
+      ShipItems: '',
+      ShipFuel: '',
+      ShipHardPoints: ''
     }
   },
   created () {
@@ -30,10 +53,18 @@ export default {
     console.log('oh my!');
 
     var player = new Character("Joe");
+    var ship = new ShipStats();
     //player.attributes.set_STR(10);
 
     this.playerstats = player.attributes.get_STR();
-
+    this.ShipHull = ship.hull;
+    this.ShipArmor = ship.armor;
+    this.ShipShields = ship.shields;
+    this.ShipScrap = ship.scrap;
+    this.ShipSupply = ship.supplies;
+    this.ShipItems = ship.items;
+    this.ShipFuel = ship.fuel;
+    this.ShipHardPoints = ship.weaponHardpoints;
     console.log('created new character:');
     console.log(player);
   },
@@ -47,6 +78,11 @@ export default {
 </script>
 
 <style>
+.Flex-Container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

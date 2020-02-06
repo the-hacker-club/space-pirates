@@ -1,25 +1,31 @@
-class shipStats {
+export class ShipStats {
     constructor(){
         this.cargo = new Cargo();
         this.health = new Health();
-        this.fuel = 0;
-        this.weaponHardpoints = 0;
-        this.modHardPoints = 0;
+        this.fuel = 111;
+        this.weaponHardpoints = 222;
+        this.modHardPoints = 333;
+        this.scrap = 444;
+        this.supplies = 555;
+        this.items = 666;
+        this.armor = 777;
+        this.hull = 888;
+        this.shields = 999;
     }
 }
 
 class Cargo{
     constructor(){
-        this.scrap = 0;
-        this.supplies = 0;
-        this.items = 0;
+        this.scrap = 444;
+        this.supplies = 555;
+        this.items = 666;
     }
 }
 
 class Health{
     constructor(){
-        this.armor = 0;
-        this.hull = 0;
-        this.shields = 0;
+        this.armor = 777;
+        this.hull = 888;
+        this.shields = 999;
     }
 }
