@@ -4,20 +4,44 @@
     <HelloWorld :msg="greeting"/>
     <p>Player attributes: {{ playerstats }} </p>
 
-    <div class="Flex-Container">
-      <div><button type="button">Hull: {{ ShipHull }}</button></div>
-      <button type="button">Armor: {{ ShipArmor }}</button>
-      <button type="button">Shields: {{ ShipShields }}</button>
-      <button type="button">Scrap: {{ ShipScrap }}</button>
-    </div>
-    <div id="WebGLBoxPH"></div>
-    <div class="Flex-Container">
-      <button type="button">Supplies: {{ ShipSupply }}</button>
-      <button type="button">Items: {{ ShipItems }}</button>
-      <button type="button">Fuel: {{ ShipFuel }}</button>
-      <button type="button">Hardpoints: {{ ShipHardPoints }}</button>
-    </div>
-
+    <div class="Main-Container">
+      <div class="Column">
+        <button type="button" class="sideButtons">Captain: {{ playerName }}</button>
+        <button type="button" class="sideButtons">Age: {{ playerAge }}</button>
+        <button type="button" class="sideButtons">Scrap: {{ playerScrap }}</button>
+        <button type="button" class="sideButtons">Fuel: {{ playerFuel }}/{{ShipFuel}}</button>
+        <button type="button" class="sideButtons">Supplies: {{ playerSupply }}</button>
+        <button type="button" class="sideButtons">Credits: {{ playerMoney }}</button>
+        <button type="button" class="sideButtons">Reputation: {{ playerRep }}</button>
+        <button type="button" class="sideButtons">Cargo: {{ playerCargo }}</button>
+     
+      </div>
+      <canvas id="WebGLBoxPH"></canvas>
+      <div class="Column">
+        <button type="button" class="sideButtons">Captain: {{ ShipSupply }}</button>
+        <button type="button" class="sideButtons">Age: {{ ShipItems }}</button>
+        <button type="button" class="sideButtons">Scrap: {{ ShipFuel }}</button>
+        <button type="button" class="sideButtons">Fuel: {{ ShipHardPoints }}</button>
+        <button type="button" class="sideButtons">Supplies: {{ ShipSupply }}</button>
+        <button type="button" class="sideButtons">Credits: {{ ShipItems }}</button>
+        <button type="button" class="sideButtons">Reputation: {{ ShipFuel }}</button>
+        <button type="button" class="sideButtons">Cargo: {{ ShipHardPoints }}</button>
+     </div>
+      </div>
+      <div class="Flex-Container">
+        <button type="button" class="bottomButtons">Supplies: {{ ShipSupply }}</button>
+        <button type="button" class="bottomButtons">Items: {{ ShipItems }}</button>
+        <button type="button" class="bottomButtons">Fuel: {{ ShipFuel }}</button>
+        <button type="button" class="bottomButtons">Hardpoints: {{ ShipHardPoints }}</button>
+      </div>
+      <div class="Flex-Container">
+        <button type="button" class="bottomButtons">Hull: {{ ShipHull }}</button>
+        <button type="button" class="bottomButtons">Armor: {{ ShipArmor }}</button>
+        <button type="button" class="bottomButtons">Shields: {{ ShipShields }}</button>
+        <button type="button" class="bottomButtons">Scrap: {{ ShipScrap }}</button>
+      </div>
+      
+    
   </div>
 </template>
 
@@ -46,7 +70,15 @@ export default {
       ShipSupply: '',
       ShipItems: '',
       ShipFuel: '',
-      ShipHardPoints: ''
+      ShipHardPoints: '',
+      playerName: '',
+      playerAge: '',
+      playerScrap: '',
+      playerFuel: '',
+      playerSupply: '',
+      playerMoney: '',
+      playerRep: '',
+      playerCargo: ''
     }
   },
   created () {
@@ -66,6 +98,15 @@ export default {
     this.ShipItems = ship.items;
     this.ShipFuel = ship.fuel;
     this.ShipHardPoints = ship.weaponHardpoints;
+    this.playerName = player.name;
+    this.playerAge = player.age;
+    this.playerScrap = player.scrap;
+    this.playerFuel = player.fuel;
+    this.playerSupply = player.supplies;
+    this.playerMoney = player.money;
+    this.playerRep = player.reputation;
+    this.playerCargo = player.cargo;
+     
     console.log('created new character:');
     console.log(player);
   },
@@ -79,20 +120,57 @@ export default {
 </script>
 
 <style>
+
+.Main-Container{
+  display: flex;
+  
+  align-items: center;
+  justify-content: center;
+}
+.Column {
+  
+  height: 400px;
+  width: 200px;
+  
+  background-color: grey;
+}
 #WebGLBoxPH{
-  width: 50%;
-  max-width: 600px;
-  min-width: 500px;
+  width: 500px;
+  
   height: 400px;
   background-color: black;
-  margin: auto;
+  
 }
 .Flex-Container {
   display: flex;
-  width: 50%;
-  margin: auto;
+  
+  
   align-items: center;
   justify-content: center;
+}
+.sideButtons {
+  height: 12.5%;
+  width: 100%;
+  font-size: 18px;
+  
+}
+.bottomButtons{
+  height: 50px;
+  width: 200px;
+  font-size: 18px;
+}
+button {
+  
+  background-color: black;
+  border-color: blue;
+  color: blue;
+  padding: 5px;
+}
+button:hover{
+  background-color: orange;
+}
+button:focus{
+  background-color: red;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
