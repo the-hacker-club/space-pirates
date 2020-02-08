@@ -5,11 +5,12 @@
     <p>Player attributes: {{ playerstats }} </p>
 
     <div class="Flex-Container">
-      <button type="button">Hull: {{ ShipHull }}</button>
+      <div><button type="button">Hull: {{ ShipHull }}</button></div>
       <button type="button">Armor: {{ ShipArmor }}</button>
       <button type="button">Shields: {{ ShipShields }}</button>
       <button type="button">Scrap: {{ ShipScrap }}</button>
     </div>
+    <div id="WebGLBoxPH"></div>
     <div class="Flex-Container">
       <button type="button">Supplies: {{ ShipSupply }}</button>
       <button type="button">Items: {{ ShipItems }}</button>
@@ -78,8 +79,18 @@ export default {
 </script>
 
 <style>
+#WebGLBoxPH{
+  width: 50%;
+  max-width: 600px;
+  min-width: 500px;
+  height: 400px;
+  background-color: black;
+  margin: auto;
+}
 .Flex-Container {
   display: flex;
+  width: 50%;
+  margin: auto;
   align-items: center;
   justify-content: center;
 }
