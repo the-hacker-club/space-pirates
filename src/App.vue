@@ -15,6 +15,7 @@
         <button type="button" class="sideButtons">Reputation: {{ playerRep }}</button>
         <button type="button" class="sideButtons">Cargo: {{ playerCargo }}</button>
      
+     
       </div>
       <canvas id="WebGLBoxPH"></canvas>
       <div class="Column">
