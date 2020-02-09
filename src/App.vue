@@ -14,8 +14,6 @@
         <button type="button" class="sideButtons">Credits: {{ playerMoney }}</button>
         <button type="button" class="sideButtons">Reputation: {{ playerRep }}</button>
         <button type="button" class="sideButtons">Cargo: {{ playerCargo }}</button>
-     
-     
       </div>
       <canvas id="WebGLBoxPH"></canvas>
       <div class="Column">
@@ -54,6 +52,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import msg from './models/Message.js'
 import {Character} from './models/Player.js'
 import {ShipStats} from './models/Ship.js'
+
 
 export default {
   name: 'app',
