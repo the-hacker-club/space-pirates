@@ -7,6 +7,7 @@ class Attributes {
         this.INT = 30;
         this.WIS = 39;
         this.CHA = 88;
+        
     }
 
     get_STR() {
@@ -24,5 +25,12 @@ export class Character {
         this.attributes = new Attributes();
         this.occupation = "Bum";
         this.name = name;
+        this.age = 34;
+        this.money = 10000;
+        this.scrap = 111;
+        this.fuel = 222;
+        this.supplies = 333;
+        this.reputation = "good";
+        this.cargo = 444;
     }
 }
