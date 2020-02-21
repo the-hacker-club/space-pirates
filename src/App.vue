@@ -10,7 +10,9 @@
       <button type="button">Shields: {{ ShipShields }}</button>
       <button type="button">Scrap: {{ ShipScrap }}</button>
     </div>
-    <div id="WebGLBoxPH"></div>
+    <div id="WebGLBoxPH">
+       <Screen/>
+    </div>
     <div class="Flex-Container">
       <button type="button">Supplies: {{ ShipSupply }}</button>
       <button type="button">Items: {{ ShipItems }}</button>
@@ -24,6 +26,7 @@
 <script>
 // componenets
 import HelloWorld from './components/HelloWorld.vue'
+import Screen from './components/Screen.vue'
 
 // models
 import msg from './models/Message.js'
@@ -33,7 +36,8 @@ import {ShipStats} from './models/Ship.js'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    HelloWorld,
+    Screen
   },
   data () {
     return {
