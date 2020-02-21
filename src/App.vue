@@ -15,7 +15,9 @@
         <button type="button" class="sideButtons">Reputation: {{ playerRep }}</button>
         <button type="button" class="sideButtons">Cargo: {{ playerCargo }}</button>
       </div>
-      <canvas id="WebGLBoxPH"></canvas>
+      <div id="WebGLBoxPH">
+        <Screen/>
+      </div>
       <div class="Column">
         <button type="button" class="sideButtons">Captain: {{ ShipSupply }}</button>
         <button type="button" class="sideButtons">Age: {{ ShipItems }}</button>
@@ -39,14 +41,13 @@
         <button type="button" class="bottomButtons">Shields: {{ ShipShields }}</button>
         <button type="button" class="bottomButtons">Scrap: {{ ShipScrap }}</button>
       </div>
-      
-    
   </div>
 </template>
 
 <script>
 // componenets
 import HelloWorld from './components/HelloWorld.vue'
+import Screen from './components/Screen.vue'
 
 // models
 import msg from './models/Message.js'
@@ -57,7 +58,8 @@ import {ShipStats} from './models/Ship.js'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    HelloWorld,
+    Screen
   },
   data () {
     return {
