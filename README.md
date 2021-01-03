@@ -1,4 +1,4 @@
-# Space Pirate
+# Space Pirates
 
 ## Project setup
 ```
