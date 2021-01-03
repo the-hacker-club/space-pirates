@@ -1,4 +1,4 @@
-# v-template
+# Space Pirate
 
 ## Project setup
 ```
