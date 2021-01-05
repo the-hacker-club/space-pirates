@@ -25,9 +25,9 @@
     "concurrently": "^4.1.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^5.0.0",
     "nodemon": "^1.18.9",
-    "sass-loader": "^7.0.1",
+    "sass-loader": "^10.1.0",
     "vue": "^2.5.17",
     "vue-template-compiler": "^2.5.17",
     "webpack-cli": "^3.2.1"

@@ -14,7 +14,9 @@
 8. Skills
 
 ## 1. PCs
+    * AccountID
     * Stats
+        - Current HP
         - Vitality
         - Strength
         - Speed
@@ -24,14 +26,13 @@
     * Inventory
     * Bounties
     * Reputation
+    * Credits
+    * Quest
+        - NPC quests include side missions PCs can accomplish
+        - Quests also facilitate passengers
 
 ## 2. NPCs
-    * Inventory
-        - Personal items
-            - dropped if killed
-    * Bounties
-    * Debts
-    * Stats (subset of PCs)
+    * See PCs
 
 ## 3. Spaceships
     * Type
@@ -53,7 +54,8 @@
 ## 4. Planets
 
 Properties of planets:
-    * Government
+    * [Leader](https://web.archive.org/web/20071214004743/http://wiki.chosenspace.com/index.php/Planet_Leader)
+    * [Government](https://web.archive.org/web/20070513095310/http://wiki.chosenspace.com/index.php/Government)
         * [Planet Leader](https://web.archive.org/web/20071214004743/http://wiki.chosenspace.com/index.php/Planet_Leader)
         * Government Type
             - Empire
@@ -62,9 +64,13 @@ Properties of planets:
             - No government
         * Tax
         * Documents
+        * Approval Rating
     * Population
-        - Happiness level
     * Outposts
+    * Spaceport
+        - List of passengers
+
+Government types are determined by [Election](https://web.archive.org/web/20070531214057/http://wiki.chosenspace.com/index.php/Election)
 
 ## 5. Asteroids
 
@@ -100,6 +106,11 @@ Asteroids contain a combination of ores, varying in rarity.
         - Ship Upgrades and purchase of new ships
     * Scrapyard
         - Repairs and Fuel
+    * Trading Post
+    * Planet Bank
+    * Comms Board
+    * SpaceStation
+        - can offer certain outpost services
 
 ## 7. Goods
 
@@ -159,4 +170,12 @@ Skills define actions PCs and sometimes NPCs can perform. Skills success are der
     * Negotiate
         - Charisma + Intelligence
 
+## [Navigation](https://web.archive.org/web/20071006162317/http://wiki.chosenspace.com/index.php/Galactic_Map)
+
+Galactic Map > Quadrant View > Sector View > Planet/Space Station
+
+Coordinates are a collection of X:Y coordinates corresponding to:
+```
+GalaxyX:GalaxyY,QuadrantX:QuadrantY,SectorX:SectorY
+```
 
