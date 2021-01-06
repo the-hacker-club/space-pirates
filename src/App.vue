@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <img alt="Vue logo" src="./assets/jollyroger.png">
     <HelloWorld :msg="greeting"/>
     <p>Player attributes: {{ playerstats }} </p>
 
@@ -122,6 +122,10 @@ export default {
 </script>
 
 <style>
+
+html {
+    background: black;
+}
 
 .Main-Container{
   display: flex;

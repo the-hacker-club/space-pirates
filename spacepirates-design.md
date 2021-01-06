@@ -9,8 +9,6 @@
 5. Asteroids
 6. Outpoosts
 7. Goods
-    - Products
-        - Materials/Resources
 8. Skills
 
 ## 1. PCs
@@ -134,6 +132,7 @@ There are different types of goods available on the market:
     * Weapons
     * Gear
     * Tools
+    * Art
 
 ## 8. Skills
 
