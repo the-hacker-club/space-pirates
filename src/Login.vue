@@ -121,6 +121,11 @@ button {
   margin: 5px;
 }
 
+button:focus {
+  outline: none !important;
+  outline-offset: 0px !important;
+}
+
 label {
   color: rgb(0,255,0);
   padding: 0px 10px;
