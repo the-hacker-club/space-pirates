@@ -1,5 +1,6 @@
 <template>
   <div id="login">
+    <p> Sanity check </p>
     <div class="logo"/>
     <p id="message" v-show="false"/>
     <div class="container">
@@ -22,7 +23,7 @@
         <input id="confirmPassword" type="password" v-model="confirmPassword">
       </div>
       <div class="buttonContainer">
-        <button>Login</button>
+        <button v-on:click="login()">Login</button>
         <button v-on:click="signup=!signup">Signup</button>
       </div>
     </div>
@@ -30,6 +31,7 @@
 </template>
 
 <script>
+import Terminal from './Terminal.vue'
 
 export default {
   name: 'login',
@@ -37,14 +39,18 @@ export default {
     return {
       email: '',
       password: '',
-      passwordConfirm: '',
+      confirmPassword: '',
       signup: false
     }
   },
   created () {
+    console.log('at login page');
   },
   methods: {
     login () {
+      let useremail = this.$data.email;
+      console.log('sending: ' + useremail);
+      this.$router.push({ path:'terminal', params: { email: 'literal' }})
     },
     signUp () {
     }
@@ -70,7 +76,7 @@ html {
   height: 150px;
   width: 200px;
   margin-top: 60px;
-  background-image: url("./assets/jollyroger.png");
+  background-image: url("../assets/jollyroger.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
