@@ -3,11 +3,25 @@ import App from './App.vue'
 //import Login from './components/Login.vue'
 import Terminal from './components/Terminal.vue'
 import VueRouter from 'vue-router'
+import 'es6-promise/auto'
+import Vuex from 'vuex'
 
 Vue.config.productionTip = false
 // 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter
 // and then call `Vue.use(VueRouter)`.
 Vue.use(VueRouter)
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  state: {
+    email: ''
+  },
+  mutations: {
+    login (state, email) {
+      state.email = email
+    }
+  }
+})
 
 // 1. Define route components.
 // These can be imported from other files
@@ -33,5 +47,6 @@ const router = new VueRouter({
 })
 new Vue({
   router,
+  store: store,
   render: h => h(App)
 }).$mount('#app')

@@ -27,7 +27,10 @@ export default {
   methods: {
     init: function() {
         let container = document.getElementById('screen');
-        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
+        //console.log(window.innerWidth + ", " + window.innerHeight);
+        // Hard code values for now
+        // 460px / 320px
+        this.camera = new THREE.PerspectiveCamera( 70, 1.4375, 0.01, 10 );
         this.camera.position.z = 1;
 
         this.scene = new THREE.Scene();

@@ -10,6 +10,7 @@
 6. Outpoosts
 7. Goods
 8. Skills
+9. Basic Mechanics
 
 ## 1. PCs
     * AccountID
@@ -83,6 +84,7 @@ Asteroids contain a combination of ores, varying in rarity.
 
 ## 6. Outposts
 
+Outposts are space stations built by governments and factions in sectors they control.
     * Refineries
         - Shields
         - Defense
@@ -95,20 +97,38 @@ Asteroids contain a combination of ores, varying in rarity.
         - Integrity (Building HP)
         - Size
         - Efficiency
-    * Bar
-        - Recruiting crew
-        - Drinking
-        - Bounties
-        - Rumors
     * Shipyard
         - Ship Upgrades and purchase of new ships
-    * Scrapyard
+    * Space Station
         - Repairs and Fuel
     * Trading Post
     * Planet Bank
     * Comms Board
     * SpaceStation
         - can offer certain outpost services
+
+Planets also can have facilities which offer similar services.
+
+    * Bar
+        - Recruiting crew
+        - Drinking
+        - Bounties
+        - Rumors
+    * Hangar
+        - Ship storage
+    * Trading Post
+        - View market orders
+    * Bank
+        - Can make deposits and withdraws
+
+    * Junkyard
+        - repairs
+    * Comms board
+    * Black Market
+        - Only available after asking bartender
+          - complete mission
+          - bribe
+          - intimidate
 
 ## 7. Goods
 
@@ -169,6 +189,10 @@ Skills define actions PCs and sometimes NPCs can perform. Skills success are der
     * Negotiate
         - Charisma + Intelligence
 
+## 9. Basic Mechanics
+
+asteroids > ore > refine > alloys > manufactory > parts > shipyards > ships/outposts | tourism, pirating, mining | planets > governments > bounties > bank > control sectors > organizations > alliances > coalitions > war > attacking
+
 ## [Navigation](https://web.archive.org/web/20071006162317/http://wiki.chosenspace.com/index.php/Galactic_Map)
 
 Galactic Map > Quadrant View > Sector View > Planet/Space Station
@@ -176,5 +200,18 @@ Galactic Map > Quadrant View > Sector View > Planet/Space Station
 Coordinates are a collection of X:Y coordinates corresponding to:
 ```
 GalaxyX:GalaxyY,QuadrantX:QuadrantY,SectorX:SectorY
+```
+
+From the database:
+```
+// Universe
+// coordinates:  [note: 'universe coordinate and 6 decimals, 2 for each galaxy, quadrant, sector coordinate. ie: 010203']
+// Start off with 40 galaxies
+Table UniverseMap {
+  id int [pk]
+  galaxy_id int [ref: > Galaxy.id, note: 'Can contain 400 [20x20] quadrants, some of which can contain star systems']
+  quadrant_id int [ref: > Quadrant.id, note: 'Can contain 400 [20x20] sectors, some of which contain celestial objects']
+  sector_id int [ref: - Sector.id, note: 'Can contain asteroids, planets, stars or outposts']
+}
 ```
 

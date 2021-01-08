@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <p> This is the App.vue</p>
     <router-view/>
   </div>
 </template>
@@ -18,7 +17,7 @@ export default {
     }
   },
   created () {
-    this.$router.push('/login');
+    //this.$router.push('/login');
   },
   methods: {
     init () {
@@ -27,7 +26,15 @@ export default {
 }
 </script>
 <style lang="scss">
+html, body {
+  height: 100%;
+  margin: 0;
+}
 #app {
   font-family: monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 </style>

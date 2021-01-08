@@ -1,46 +1,61 @@
 <template>
   <div id="Terminal">
-    <p>Player: {{ $route.params.email }}</p>
-    <HelloWorld :msg="greeting"/>
-    <p>Player attributes: {{ playerstats }} </p>
-
-    <div class="Main-Container">
-      <div class="Column">
-        <button type="button" class="sideButtons">Captain: {{ playerName }}</button>
-        <button type="button" class="sideButtons">Age: {{ playerAge }}</button>
-        <button type="button" class="sideButtons">Scrap: {{ playerScrap }}</button>
-        <button type="button" class="sideButtons">Fuel: {{ playerFuel }}/{{ShipFuel}}</button>
-        <button type="button" class="sideButtons">Supplies: {{ playerSupply }}</button>
-        <button type="button" class="sideButtons">Credits: {{ playerMoney }}</button>
-        <button type="button" class="sideButtons">Reputation: {{ playerRep }}</button>
-        <button type="button" class="sideButtons">Cargo: {{ playerCargo }}</button>
+    <div class="terminal">
+      <table>
+        <tr>
+          <td rowspan="2" />
+          <td rowspan="8" colspan="4">
+            <div id="WebGLBoxPH">
+              <Screen/>
+            </div>
+          </td>
+          <td rowspan="2" />
+        </tr>
+        <tr>
+        </td>
+        <tr>
+          <td><router-link to="/">View</router-link></td>
+          <td>View</td>
+        </tr>
+        <tr>
+          <td><router-link to="/">Navigation</router-link></td>
+          <td>Navigation</td>
+        </tr>
+        <tr>
+          <td><router-link to="/">Market</router-link></td>
+          <td>Market</td>
+        </tr>
+        <tr>
+          <td><router-link to="/">Crew</router-link></td>
+          <td>Crew</td>
+        </tr>
+        <tr>
+          <td><router-link to="/">Ship</router-link></td>
+          <td>Ship</td>
+        </tr>
+        <tr>
+          <td><router-link to="/">Inventory</router-link></td>
+          <td>Inventory</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Navigation</td>
+          <td>Land</td>
+          <td>Scan Area</td>
+          <td>Repairs</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Navigation</td>
+          <td>Land</td>
+          <td>Scan Area</td>
+          <td>Repairs</td>
+          <td></td>
+        </tr>
+      </table>
       </div>
-      <div id="WebGLBoxPH">
-        <Screen/>
-      </div>
-      <div class="Column">
-        <button type="button" class="sideButtons">Captain: {{ ShipSupply }}</button>
-        <button type="button" class="sideButtons">Age: {{ ShipItems }}</button>
-        <button type="button" class="sideButtons">Scrap: {{ ShipFuel }}</button>
-        <button type="button" class="sideButtons">Fuel: {{ ShipHardPoints }}</button>
-        <button type="button" class="sideButtons">Supplies: {{ ShipSupply }}</button>
-        <button type="button" class="sideButtons">Credits: {{ ShipItems }}</button>
-        <button type="button" class="sideButtons">Reputation: {{ ShipFuel }}</button>
-        <button type="button" class="sideButtons">Cargo: {{ ShipHardPoints }}</button>
-     </div>
-      </div>
-      <div class="Flex-Container">
-        <button type="button" class="bottomButtons">Supplies: {{ ShipSupply }}</button>
-        <button type="button" class="bottomButtons">Items: {{ ShipItems }}</button>
-        <button type="button" class="bottomButtons">Fuel: {{ ShipFuel }}</button>
-        <button type="button" class="bottomButtons">Hardpoints: {{ ShipHardPoints }}</button>
-      </div>
-      <div class="Flex-Container">
-        <button type="button" class="bottomButtons">Hull: {{ ShipHull }}</button>
-        <button type="button" class="bottomButtons">Armor: {{ ShipArmor }}</button>
-        <button type="button" class="bottomButtons">Shields: {{ ShipShields }}</button>
-        <button type="button" class="bottomButtons">Scrap: {{ ShipScrap }}</button>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -53,15 +68,22 @@ import Screen from './Screen.vue'
 import msg from '../models/Message.js'
 import {Character} from '../models/Player.js'
 import {ShipStats} from '../models/Ship.js'
+import {mapState} from 'vuex'
 
 
 export default {
   name: 'terminal',
-  props: ['email'],
   components: {
     HelloWorld,
     Screen
   },
+  computed: mapState({
+    // arrow functions can make the code very succinct!
+    email: state => state.email,
+
+    // passing the string value 'email' is same as `state => state.email`
+    emailAlias: 'email',
+  }),
   data () {
     return {
       greeting: '',
@@ -86,8 +108,7 @@ export default {
   },
   created () {
     this.getMsg()
-    console.log(this.$props['email']);
-    console.log(this.$props);
+    console.log(this.$store.state.email);
     console.log('oh my!');
 
     var player = new Character("Joe");
@@ -128,41 +149,60 @@ export default {
 
 html {
   background: black;
+  color: white;
 }
 
-.Main-Container{
+table,  td{
+  border-collapse: collapse;
+  border-style: ridge;
+}
+
+td {
+  text-align: center;
+  width: 110px;
+  white-space: pre;
+}
+
+tr {
+  height: 40px;
+}
+
+p {
+  margin: 3px;
+}
+
+/* unvisited link */
+a:link {
+  color: #0066ff;
+}
+
+/* visited link */
+a:visited {
+  color: #0066ff;
+}
+
+/* mouse over link */
+a:hover {
+  color: #00ccff;
+}
+
+/* selected link */
+a:active {
+  color: #00ccff;
+}
+
+.column {
+  min-width: 120px;
+}
+
+.terminal{
   display: flex;
-  
   align-items: center;
   justify-content: center;
-}
-.Column {
-  height: 400px;
-  width: 200px;
 }
 #WebGLBoxPH{
-  width: 500px;
-  
-  height: 400px;
+  width: 460px;
+  height: 320px;
   background-color: black;
-  
-}
-.Flex-Container {
-  display: flex;
-  
-  
-  align-items: center;
-  justify-content: center;
-}
-.sideButtons {
-  height: 12.5%;
-  width: 100%;
-  font-size: 18px;
-  
-}
-.bottomButtons{
-  height: 50px;
-  width: 200px;
-  font-size: 18px;
 }
 </style>

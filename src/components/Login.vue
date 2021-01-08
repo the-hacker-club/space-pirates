@@ -1,6 +1,5 @@
 <template>
   <div id="login">
-    <p> Sanity check </p>
     <div class="logo"/>
     <p id="message" v-show="false"/>
     <div class="container">
@@ -51,6 +50,8 @@ export default {
       let useremail = this.$data.email;
       console.log('sending: ' + useremail);
       this.$router.push({ path:'terminal', params: { email: 'literal' }})
+      this.$store.commit('login', useremail);
+      console.log('committed.');
     },
     signUp () {
     }
@@ -75,7 +76,6 @@ html {
 .logo {
   height: 150px;
   width: 200px;
-  margin-top: 60px;
   background-image: url("../assets/jollyroger.png");
   background-size: contain;
   background-repeat: no-repeat;
